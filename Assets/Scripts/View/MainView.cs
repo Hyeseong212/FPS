@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class MainView : MonoBehaviour
 {
     public long UID = 638506276349467625;
-    public long sendingUID = 638506276349467624;
+    public long sendingUID = 6385062763494676243;
 
     public InputField inputField;
     public Text chatDisplay;
