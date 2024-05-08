@@ -35,7 +35,7 @@ public class TCPController : MonoBehaviour
 
     public void StartTCPController()
     {
-        ConnectToServer("127.0.0.1", 9000); // 서버 IP 주소 및 포트
+        ConnectToServer("112.151.82.136", 9000); // 서버 IP 주소 및 포트
         chatController = new ChatController();
     }
 

@@ -54,10 +54,11 @@ public class MainView : MonoBehaviour
     {
         var message = new Packet();
 
-        int length = 0x01 + Utils.GetLength(UID);
+        int length = 0x01 + 0x01 + Utils.GetLength(UID);
 
         message.push((byte)Protocol.Login);
         message.push(length);
+        message.push((byte)LoginRequestType.LoginRequest);
         message.push(UID);
         TCPController.Instance.SendToServer(message);
     }
