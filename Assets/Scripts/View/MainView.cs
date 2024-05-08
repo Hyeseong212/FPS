@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 public class MainView : MonoBehaviour
 {
-    public long UID = 638506276349467625;
-    public long ReceiveUID = 6385062763494676243;
+    public long UID = 638506276349467624;
+    public long ReceiveUID = 638506276349467625;
 
     public InputField inputField;
     public Text chatDisplay;

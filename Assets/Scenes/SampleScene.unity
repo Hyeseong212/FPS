@@ -1192,7 +1192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UID: 638506276349467625
-  sendingUID: 638506276349467624
+  ReceiveUID: 638506276349467624
   inputField: {fileID: 2110899012}
   chatDisplay: {fileID: 1767002125}
   dropdown: {fileID: 1219461370}

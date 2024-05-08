@@ -119,7 +119,7 @@ public class TCPController : MonoBehaviour
                     if (i != length + 5 - 1) str += buffer[i] + "|";
                     else str += buffer[i];
                 }
-                Debug.Log("length : " + length + ", data : " + str);
+                //Debug.Log("length : " + length + ", data : " + str);
                 chatController.ReceiveMessage(message);
                 break;
             case (byte)Protocol.Match:
