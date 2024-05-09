@@ -24,6 +24,7 @@ public class TCPController : MonoBehaviour
                 {
                     GameObject singletonObject = new GameObject("TCPControllerSingleton");
                     instance = singletonObject.AddComponent<TCPController>();
+                    DontDestroyOnLoad(singletonObject);
                 }
             }
             return instance;
@@ -33,8 +34,9 @@ public class TCPController : MonoBehaviour
 
     ChatController chatController;
 
-    public void StartTCPController()
+    public void Init()
     {
+        Debug.Log("TCPController Init Complete");
         ConnectToServer("112.151.82.136", 9000); // 서버 IP 주소 및 포트
         chatController = new ChatController();
     }
@@ -73,8 +75,8 @@ public class TCPController : MonoBehaviour
     {
         byte[] buffer = new byte[Packet.buffersize];
 
-        try
-        {
+        //try
+        //{
             while (true)
             {
                 int bytesRead = stream.Read(buffer, 0, buffer.Length);
@@ -83,34 +85,80 @@ public class TCPController : MonoBehaviour
                     HandlePacket(buffer); // 수신된 메시지를 분석하는 함수 호출
                 }
             }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Receive error: {e.Message}");
-        }
+        //}
+        //catch (Exception e)
+        //{
+        //    Debug.LogError($"Receive error: {e.Message}");
+        //}
     }
     private void HandlePacket(byte[] buffer)
     {
-        var protocol = buffer[0];
+        byte protocol = buffer[0];
+        byte[] lengthBytes = new byte[4];
 
-        var lengthbytes = new byte[4];
-
-        for(int i = 0; i < 4; i++)
+        try
         {
-            lengthbytes[i] = buffer[i + 1];
+            for (int i = 0; i < 4; i++)
+            {
+                lengthBytes[i] = buffer[i + 1];
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
         }
 
-        int length = BitConverter.ToInt32(lengthbytes, 0);
+        int length = BitConverter.ToInt32(lengthBytes, 0);
+        byte[] realData = new byte[length];
 
-        //count = count - 1;
-        //byte[] realdata = new byte[count];
-        //for (int i = count-1; i > 0; i--)
-        //{
-        //    realdata[i] = buffer[i];
-        //}
-
+        try
+        {
+            for (int i = 0; i < length; i++)
+            {
+                realData[i] = buffer[i + 5];
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex.Message);
+        }
         switch (protocol)
         {
+            case (byte)Protocol.Login:
+                if ((LoginRequestType)realData[0] == LoginRequestType.LoginRequest)
+                {
+                    if ((ResponseType)realData[1] == ResponseType.Success)
+                    {
+                        long sendUseruidval = BitConverter.ToInt64(realData, 2);
+                        Global.Instance.standbyInfo.userUid = sendUseruidval;
+                        EnqueueDispatcher(() =>
+                        {
+                            Debug.Log("로긴 성공");
+                            PopupController.Instance.SetActivePopup(POPUPTYPE.LOGIN, false);
+                        });
+                    }
+                    else if ((ResponseType)realData[1] == ResponseType.Fail)
+                    {
+                        Debug.Log("응 로그인 실패 ㅅㄱ");
+                    }
+                }
+                else if ((LoginRequestType)realData[0] == LoginRequestType.LogoutRequest)
+                {
+                    if ((ResponseType)realData[1] == ResponseType.Success)
+                    {
+                        //Debug.Log(message);
+                        EnqueueDispatcher(() =>
+                        {
+                            Debug.Log("로그아웃 성공");
+                        });
+                    }
+                    else if ((ResponseType)realData[1] == ResponseType.Fail)
+                    {
+                        Debug.Log("응 로그아웃 실패 ㅅㄱ");
+                    }
+                }
+
+                break;
             case (byte)Protocol.Chat:
                 string message = Encoding.UTF8.GetString(buffer, 5, length);
                 string str = "";
@@ -139,35 +187,7 @@ public class TCPController : MonoBehaviour
                 break;
         }
     }
-    //private void HandlePacket(string message)
-    //{
-    //    if (message.StartsWith("Server:"))
-    //    {
-    //        string content = message.Substring(7).Trim(); // "Server:" 접두사를 제거하여 실제 내용을 얻음
-    //        // 수신된 패킷의 내용에 따른 처리 로직 구현
-    //        switch (content)
-    //        {
-    //            case string s when s.Contains("Hello"):
-    //                Debug.Log("Received a greeting from the server.");
-    //                chatController.ReceiveMessage($"Server: Hello!");
-    //                break;
 
-    //            case string s when s.Contains("time"):
-    //                Debug.Log($"Received the current server time: {content}");
-    //                chatController.ReceiveMessage(content);
-    //                break;
-
-    //            default:
-    //                Debug.Log($"Received an unknown message from the server: {content}");
-    //                chatController.ReceiveMessage($"Unknown message from the server: {content}");
-    //                break;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Debug.Log($"Received unrecognized packet: {message}");
-    //    }
-    //}
 
     public void SendToServer(Packet data)
     {

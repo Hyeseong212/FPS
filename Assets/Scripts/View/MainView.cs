@@ -18,12 +18,12 @@ public class MainView : MonoBehaviour
     private StreamWriter writer;
 
     [SerializeField] Button sendBtn;
+    [SerializeField] Button logoutBtn;
 
     ChatStatus ChatStatus = ChatStatus.ENTIRE;
 
     private void Start()
     {
-        Login();
         sendBtn.onClick.AddListener(delegate
         {
             SendMessage();
@@ -44,22 +44,26 @@ public class MainView : MonoBehaviour
             }
             
         });
+        logoutBtn.onClick.AddListener(delegate
+        {
+            Logout();
+        });
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
             SendMessage();
     }
-    public void Login()
+    private void Logout()
     {
         var message = new Packet();
 
-        int length = 0x01 + 0x01 + Utils.GetLength(UID);
+        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userUid);
 
         message.push((byte)Protocol.Login);
         message.push(length);
-        message.push((byte)LoginRequestType.LoginRequest);
-        message.push(UID);
+        message.push((byte)LoginRequestType.LogoutRequest);
+        message.push(Global.Instance.standbyInfo.userUid);
         TCPController.Instance.SendToServer(message);
     }
     public void SendMessage()

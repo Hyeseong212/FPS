@@ -6,6 +6,8 @@ public class MainFlow : MonoBehaviour
 {
     private void Awake()
     {
-        TCPController.Instance.StartTCPController();
+        Global.Instance.Init();
+        PopupController.Instance.Init();
+        TCPController.Instance.Init();
     }
 }
