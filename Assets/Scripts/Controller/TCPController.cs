@@ -149,6 +149,7 @@ public class TCPController : MonoBehaviour
                         //Debug.Log(message);
                         EnqueueDispatcher(() =>
                         {
+                            PopupController.Instance.SetActivePopup(POPUPTYPE.LOGIN, true);
                             Debug.Log("로그아웃 성공");
                         });
                     }
