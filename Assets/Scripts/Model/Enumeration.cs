@@ -2,7 +2,9 @@ using System;
 
 public enum POPUPTYPE
 {
-    LOGIN
+    LOGIN,
+    SIGNUP,
+    MESSAGE
 }
 [Serializable]
 public class LoginInfo
@@ -16,6 +18,19 @@ public class LoginInfo
     }
 }
 [Serializable]
+public class SignUpInfo
+{
+    public string id;
+    public string pw;
+    public string name;
+    public SignUpInfo()
+    {
+        id = string.Empty;
+        pw = string.Empty;
+        name = string.Empty;
+    }
+}
+[Serializable]
 public class StandbyInfo
 {
     public long userUid;
@@ -23,4 +38,9 @@ public class StandbyInfo
     {
         userUid = long.MinValue;
     }
+}
+public class MessageInfo
+{
+    public int idx;
+    public string message;
 }

@@ -24,9 +24,16 @@ public class Global : MonoBehaviour
         }
     }
     public StandbyInfo standbyInfo;
+    public List<MessageInfo> messageInfos;
+
     public void Init()
     {
         standbyInfo = new StandbyInfo();
         Debug.Log("Global Init Complete");
+        messageInfos = new List<MessageInfo>()
+        {
+            new MessageInfo() {  idx = 0, message = "중복된 ID입니다 다른아이디를 입력해주세요." },
+            new MessageInfo() {  idx = 1, message = "회원가입 성공" }
+        };
     }
 }

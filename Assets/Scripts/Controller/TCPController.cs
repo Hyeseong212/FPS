@@ -158,6 +158,28 @@ public class TCPController : MonoBehaviour
                         Debug.Log("응 로그아웃 실패 ㅅㄱ");
                     }
                 }
+                else if((LoginRequestType)realData[0] == LoginRequestType.SignupRequest)
+                {
+                    if ((ResponseType)realData[1] == ResponseType.Success)
+                    {
+                        //Debug.Log(message);
+                        EnqueueDispatcher(() =>
+                        {
+                            PopupController.Instance.SetActivePopup(POPUPTYPE.SIGNUP, false);
+                            PopupController.Instance.SetActivePopup(POPUPTYPE.LOGIN, true);
+                            PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 1);
+                            Debug.Log("회원가입 성공");
+                        });
+                    }
+                    else if ((ResponseType)realData[1] == ResponseType.Fail)
+                    {
+                        EnqueueDispatcher(() =>
+                        {
+                            PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 0);
+                            Debug.Log("응 회원가입 실패 ㅅㄱ");
+                        });
+                    }
+                }
 
                 break;
             case (byte)Protocol.Chat:
