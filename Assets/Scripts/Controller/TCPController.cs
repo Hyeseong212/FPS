@@ -37,7 +37,7 @@ public class TCPController : MonoBehaviour
     public void Init()
     {
         Debug.Log("TCPController Init Complete");
-        ConnectToServer("112.151.82.136", 9000); // 서버 IP 주소 및 포트
+        ConnectToServer(Global.Instance.companyip, 9000); // 서버 IP 주소 및 포트
         chatController = new ChatController();
     }
 
