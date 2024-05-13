@@ -20,6 +20,7 @@ public class MainView : MonoBehaviour
 
     [SerializeField] Button sendBtn;
     [SerializeField] Button logoutBtn;
+    [SerializeField] Button guildOpenBtn;
 
     ChatStatus ChatStatus = ChatStatus.ENTIRE;
 
@@ -28,6 +29,10 @@ public class MainView : MonoBehaviour
         sendBtn.onClick.AddListener(delegate
         {
             SendMessage();
+        });
+        guildOpenBtn.onClick.AddListener(delegate
+        {
+            PopupController.Instance.SetActiveView(VIEWTYPE.GUILD, true);
         });
         dropdown.onValueChanged.AddListener(delegate
         {

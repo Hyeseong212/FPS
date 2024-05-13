@@ -17,7 +17,7 @@ public class SIGNUPPOPUP : MonoBehaviour
         BackBtn.onClick.AddListener(delegate
         {
             gameObject.SetActive(false);
-            PopupController.Instance.SetActivePopup(POPUPTYPE.LOGIN, true);
+            PopupController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
         });
     }
     private void SignUp()

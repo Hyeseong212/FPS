@@ -52,7 +52,7 @@ public class LOGINPOPUP : MonoBehaviour
     private void SignUp()
     {
         this.gameObject.SetActive(false);
-        PopupController.Instance.SetActivePopup(POPUPTYPE.SIGNUP, true);
+        PopupController.Instance.SetActiveView(VIEWTYPE.SIGNUP, true);
     }
     public void LoginSuccess()
     {

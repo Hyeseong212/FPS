@@ -1,9 +1,15 @@
 using System;
+using System.Collections.Generic;
 
-public enum POPUPTYPE
+public enum VIEWTYPE
 {
     LOGIN,
     SIGNUP,
+    GUILD
+}
+
+public enum POPUPTYPE
+{
     MESSAGE
 }
 [Serializable]
@@ -43,4 +49,28 @@ public class MessageInfo
 {
     public int idx;
     public string message;
+}
+[Serializable]
+public class GuildInfo
+{
+    public long guildUid;
+    public string guildName;
+    public List<GuildCrew> guildCrews;
+    public GuildInfo()
+    {
+        guildUid = long.MinValue;
+        guildName = string.Empty;
+        guildCrews = new List<GuildCrew>();
+    }
+}
+[Serializable]
+public class GuildCrew
+{
+    public long crewUid;
+    public string crewName;
+    public GuildCrew()
+    {
+        crewUid = long.MinValue;
+        crewName = string.Empty;
+    }
 }

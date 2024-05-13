@@ -25,21 +25,25 @@ public class PopupController : MonoBehaviour
 
     [SerializeField] LOGINPOPUP loginpopup;
     [SerializeField] SIGNUPPOPUP signpopup;
+    [SerializeField] GUILDVIEW guildView;
     [SerializeField] MESSAGEPOPUP messagepopup;
 
     public void Init()
     {
         Debug.Log("PopupController Init Complete");
     }
-    public void SetActivePopup(POPUPTYPE type, bool isActive)
+    public void SetActiveView(VIEWTYPE type, bool isActive)
     {
         switch (type)
         {
-            case POPUPTYPE.LOGIN:
+            case VIEWTYPE.LOGIN:
                 loginpopup.gameObject.SetActive(isActive);
                 break;
-            case POPUPTYPE.SIGNUP:
+            case VIEWTYPE.SIGNUP:
                 signpopup.gameObject.SetActive(isActive);
+                break;
+            case VIEWTYPE.GUILD:
+                guildView.gameObject.SetActive(isActive);
                 break;
             default:
                 Debug.Log("This Popup Type is not Exist");

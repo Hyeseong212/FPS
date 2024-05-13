@@ -37,7 +37,7 @@ public class TCPController : MonoBehaviour
     public void Init()
     {
         Debug.Log("TCPController Init Complete");
-        ConnectToServer(Global.Instance.companyip, 9000); // 서버 IP 주소 및 포트
+        ConnectToServer(Global.Instance.homeip, 9000); // 서버 IP 주소 및 포트
         chatController = new ChatController();
     }
 
@@ -134,7 +134,7 @@ public class TCPController : MonoBehaviour
                         EnqueueDispatcher(() =>
                         {
                             Debug.Log("로긴 성공");
-                            PopupController.Instance.SetActivePopup(POPUPTYPE.LOGIN, false);
+                            PopupController.Instance.SetActiveView(VIEWTYPE.LOGIN, false);
                         });
                     }
                     else if ((ResponseType)realData[1] == ResponseType.Fail)
@@ -149,7 +149,7 @@ public class TCPController : MonoBehaviour
                         //Debug.Log(message);
                         EnqueueDispatcher(() =>
                         {
-                            PopupController.Instance.SetActivePopup(POPUPTYPE.LOGIN, true);
+                            PopupController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
                             Debug.Log("로그아웃 성공");
                         });
                     }
@@ -165,8 +165,8 @@ public class TCPController : MonoBehaviour
                         //Debug.Log(message);
                         EnqueueDispatcher(() =>
                         {
-                            PopupController.Instance.SetActivePopup(POPUPTYPE.SIGNUP, false);
-                            PopupController.Instance.SetActivePopup(POPUPTYPE.LOGIN, true);
+                            PopupController.Instance.SetActiveView(VIEWTYPE.SIGNUP, false);
+                            PopupController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
                             PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 1);
                             Debug.Log("회원가입 성공");
                         });
