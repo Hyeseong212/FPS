@@ -31,14 +31,10 @@ public class TCPController : MonoBehaviour
         }
     }
 
-
-    ChatController chatController;
-
     public void Init()
     {
         Debug.Log("TCPController Init Complete");
         ConnectToServer(Global.Instance.homeip, 9000); // 서버 IP 주소 및 포트
-        chatController = new ChatController();
     }
 
     void OnApplicationQuit()
@@ -65,9 +61,9 @@ public class TCPController : MonoBehaviour
 
     public void Disconnect()
     {
+        if (receiveThread != null) receiveThread.Abort();
         if (stream != null) stream.Close();
         if (client != null) client.Close();
-        if (receiveThread != null) receiveThread.Abort();
         Debug.Log("Disconnected from server.");
     }
 
@@ -125,62 +121,10 @@ public class TCPController : MonoBehaviour
         switch (protocol)
         {
             case (byte)Protocol.Login:
-                if ((LoginRequestType)realData[0] == LoginRequestType.LoginRequest)
-                {
-                    if ((ResponseType)realData[1] == ResponseType.Success)
-                    {
-                        long sendUseruidval = BitConverter.ToInt64(realData, 2);
-                        Global.Instance.standbyInfo.userUid = sendUseruidval;
-                        EnqueueDispatcher(() =>
-                        {
-                            Debug.Log("로긴 성공");
-                            PopupController.Instance.SetActiveView(VIEWTYPE.LOGIN, false);
-                        });
-                    }
-                    else if ((ResponseType)realData[1] == ResponseType.Fail)
-                    {
-                        Debug.Log("응 로그인 실패 ㅅㄱ");
-                    }
-                }
-                else if ((LoginRequestType)realData[0] == LoginRequestType.LogoutRequest)
-                {
-                    if ((ResponseType)realData[1] == ResponseType.Success)
-                    {
-                        //Debug.Log(message);
-                        EnqueueDispatcher(() =>
-                        {
-                            PopupController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
-                            Debug.Log("로그아웃 성공");
-                        });
-                    }
-                    else if ((ResponseType)realData[1] == ResponseType.Fail)
-                    {
-                        Debug.Log("응 로그아웃 실패 ㅅㄱ");
-                    }
-                }
-                else if((LoginRequestType)realData[0] == LoginRequestType.SignupRequest)
-                {
-                    if ((ResponseType)realData[1] == ResponseType.Success)
-                    {
-                        //Debug.Log(message);
-                        EnqueueDispatcher(() =>
-                        {
-                            PopupController.Instance.SetActiveView(VIEWTYPE.SIGNUP, false);
-                            PopupController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
-                            PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 1);
-                            Debug.Log("회원가입 성공");
-                        });
-                    }
-                    else if ((ResponseType)realData[1] == ResponseType.Fail)
-                    {
-                        EnqueueDispatcher(() =>
-                        {
-                            PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 0);
-                            Debug.Log("응 회원가입 실패 ㅅㄱ");
-                        });
-                    }
-                }
-
+                LoginController.Instance.ProcessLoginPacket(realData);
+                break;
+            case (byte)Protocol.Guild:
+                GuildController.Instance.ProcessGuildPacket(realData);
                 break;
             case (byte)Protocol.Chat:
                 string message = Encoding.UTF8.GetString(buffer, 5, length);
@@ -191,7 +135,7 @@ public class TCPController : MonoBehaviour
                     else str += buffer[i];
                 }
                 //Debug.Log("length : " + length + ", data : " + str);
-                chatController.ReceiveMessage(message);
+                ChatController.Instance.ReceiveMessage(message);
                 break;
             case (byte)Protocol.Match:
                 break;

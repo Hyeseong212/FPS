@@ -26,7 +26,7 @@ public class Global : MonoBehaviour
     public StandbyInfo standbyInfo;
     public List<MessageInfo> messageInfos;
     public string companyip = "192.168.123.1";
-    public string homeip = "112.151.82.136";
+    public string homeip = "192.168.219.100";
     public void Init()
     {
         standbyInfo = new StandbyInfo();

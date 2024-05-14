@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SIGNUPPOPUP : MonoBehaviour
+public class SIGNUPVIEW : MonoBehaviour
 {
     [SerializeField] InputField nameInputfield;
     [SerializeField] InputField idInputfield;

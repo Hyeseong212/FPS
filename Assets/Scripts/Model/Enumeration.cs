@@ -40,9 +40,16 @@ public class SignUpInfo
 public class StandbyInfo
 {
     public long userUid;
+    public long guildUid;
+
     public StandbyInfo()
     {
+        Reset();
+    }
+    public void Reset()
+    {
         userUid = long.MinValue;
+        guildUid = long.MinValue;
     }
 }
 public class MessageInfo

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GUILDVIEW : MonoBehaviour
 {
+    [SerializeField] Text guildNameTxt;
+
     [SerializeField] GameObject guildFindPanel;
     [SerializeField] InputField guildNameTextPanel;
     [SerializeField] GameObject guildNameContainer;
@@ -18,6 +20,10 @@ public class GUILDVIEW : MonoBehaviour
 
     [SerializeField] Button GuildCreate;
 
+    [SerializeField] Button GuildFindPanelBtn;
+    [SerializeField] Button GuildCrewPanelBtn;
+
+
 
     public List<GuildInfo> guildInfos = new List<GuildInfo>();
     List<GuildCrew> guildcrews = new List<GuildCrew>();
@@ -26,18 +32,26 @@ public class GUILDVIEW : MonoBehaviour
     {
         GuildCreate.onClick.AddListener(delegate
         {
-            //길드 생성
-            Packet packet = new Packet();
-
-            int length = 0x01 + Utils.GetLength(createGuildName.text);
-
-            packet.push((byte)Protocol.Guild);
-            packet.push(length);
-            packet.push((byte)GuildProtocol.CreateGuild);
-            packet.push(createGuildName.text);
-
-            TCPController.Instance.SendToServer(packet);
+            GuildCreatePakcetToServer();
         });
+        GuildFindPanelBtn.onClick.AddListener(delegate
+        {
+            guildCrewsPanel.SetActive(false);
+            guildFindPanel.SetActive(true);
+        });
+        GuildCrewPanelBtn.onClick.AddListener(delegate
+        {
+            guildCrewsPanel.SetActive(true);
+            guildFindPanel.SetActive(false);
+        });
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            guildFindPanel.SetActive(false);
+            gameObject.SetActive(false);
+        }
     }
     private void OnEnable()
     {
@@ -87,5 +101,35 @@ public class GUILDVIEW : MonoBehaviour
                 Debug.Log($"this is {GuildNameObject.GetComponentInChildren<Text>().text}");
             });
         }
+    }
+    public void GuildCreatePakcetToServer()
+    {
+        Packet packet = new Packet();
+
+        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userUid) + Utils.GetLength(createGuildName.text);
+
+        packet.push((byte)Protocol.Guild);
+        packet.push(length);
+        packet.push((byte)GuildProtocol.CreateGuild);
+        packet.push(Global.Instance.standbyInfo.userUid);
+        packet.push(createGuildName.text);
+
+        TCPController.Instance.SendToServer(packet);
+
+        createGuildName.text = "";
+    }
+
+
+    public void SetActiveGuildFindPanel(bool isActive)
+    {
+        guildFindPanel.SetActive(isActive);
+    }
+    public void SetActiveGuildCrewsPanel(bool isActive)
+    {
+        guildCrewsPanel.SetActive(isActive);
+    }
+    public void SetUserGuildName(string guildName)
+    {
+        guildNameTxt.text = guildName;
     }
 }

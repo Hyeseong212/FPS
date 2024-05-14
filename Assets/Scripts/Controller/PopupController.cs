@@ -23,8 +23,8 @@ public class PopupController : MonoBehaviour
         }
     }
 
-    [SerializeField] LOGINPOPUP loginpopup;
-    [SerializeField] SIGNUPPOPUP signpopup;
+    [SerializeField] LOGINVIEW loginpopup;
+    [SerializeField] SIGNUPVIEW signpopup;
     [SerializeField] GUILDVIEW guildView;
     [SerializeField] MESSAGEPOPUP messagepopup;
 

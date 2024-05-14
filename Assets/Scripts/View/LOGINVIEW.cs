@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LOGINPOPUP : MonoBehaviour
+public class LOGINVIEW : MonoBehaviour
 {
     [SerializeField] Button loginBtn; 
     [SerializeField] InputField IDInputField; 
@@ -12,6 +12,8 @@ public class LOGINPOPUP : MonoBehaviour
 
     void Start()
     {
+
+
         loginBtn.onClick.AddListener(delegate
         {
             Login();
@@ -25,7 +27,8 @@ public class LOGINPOPUP : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-
+            IDInputField.text = "netrogold";
+            PasswordInpuField.text = "Sjh011009!";
         }
     }
     private void Login() 
