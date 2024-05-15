@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using System.Text;
 using UnityEngine;
 
@@ -48,13 +49,24 @@ public class GuildController : MonoBehaviour
         }
         else if ((GuildProtocol)data[0] == GuildProtocol.SelectGuildName)
         {
-
+            SetGuildNameFromServer(data);
         }
         else if ((GuildProtocol)data[0] == GuildProtocol.SelectGuildUid)
         {
             byte[] guildNameByte = data.Skip(1).ToArray();
             SetGuildName(guildNameByte);
         }
+    }
+    private void SetGuildNameFromServer(byte[] data)
+    {
+        string strguildInfos = Encoding.UTF8.GetString(data.Skip(1).ToArray());
+
+        List<GuildInfo> guildInfos = JsonConvert.DeserializeObject<List<GuildInfo>>(strguildInfos);
+        TCPController.Instance.EnqueueDispatcher(delegate
+        {
+            GUILDVIEW guildView = FindObjectOfType<GUILDVIEW>(true);
+            guildView.FindedGuildSort(guildInfos);
+        });
     }
     private void SendPacketGetGuildName(byte[] data)
     {

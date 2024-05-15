@@ -5,31 +5,41 @@ using UnityEngine.UI;
 
 public class GUILDVIEW : MonoBehaviour
 {
+    [Header("헤더")]
     [SerializeField] Text guildNameTxt;
-
+    [Header("길드 찾기 패널")]
     [SerializeField] GameObject guildFindPanel;
-    [SerializeField] InputField guildNameTextPanel;
+    [SerializeField] InputField findGuildNameTextPanel;
     [SerializeField] GameObject guildNameContainer;
     [SerializeField] GameObject guildNameObject;
+
+    [SerializeField] Button GuildFindBtn;
+
     [SerializeField] InputField createGuildName;
+    [SerializeField] Button GuildCreate;
 
-
+    [Header("길드원 패널")]
     [SerializeField] GameObject guildCrewsPanel;
     [SerializeField] GameObject guildCrewsContainer;
     [SerializeField] GameObject guildCrewsNameObject;
 
-    [SerializeField] Button GuildCreate;
 
+    [Header("풋")]
     [SerializeField] Button GuildFindPanelBtn;
     [SerializeField] Button GuildCrewPanelBtn;
 
+    List<GameObject> guildInfoObject = new List<GameObject>();
 
-
+    //테스트 코드
     public List<GuildInfo> guildInfos = new List<GuildInfo>();
     List<GuildCrew> guildcrews = new List<GuildCrew>();
 
     private void Start()
     {
+        GuildFindBtn.onClick.AddListener(delegate
+        {
+            FindGuild();
+        });
         GuildCreate.onClick.AddListener(delegate
         {
             GuildCreatePakcetToServer();
@@ -66,25 +76,54 @@ public class GUILDVIEW : MonoBehaviour
 
         TCPController.Instance.SendToServer(packet);
     }
-    public void TestCode()
+    private void FindGuild()
     {
-        FindedGuildSort(guildInfos);
+        for(int i = 0; i < guildInfoObject.Count; i++)
+        {
+            Destroy(guildInfoObject[i]);
+        }
+
+        Packet packet = new Packet();
+
+        int length = 0x01 + Utils.GetLength(findGuildNameTextPanel.text);
+
+        packet.push((byte)Protocol.Guild);
+        packet.push(length);
+        packet.push((byte)GuildProtocol.SelectGuildName);
+        packet.push(findGuildNameTextPanel.text);
+
+        TCPController.Instance.SendToServer(packet);
     }
     public void TestCode2()
     {
         GuildCrewsNameSort(guildcrews);
     }
-    private void FindedGuildSort(List<GuildInfo> guildInfos)
+    public void FindedGuildSort(List<GuildInfo> guildInfos)
     {
         for (int i = 0; i < guildInfos.Count; i++)
         {
             GameObject GuildNameObject = Instantiate(guildNameObject, guildNameContainer.transform);
+            guildInfoObject.Add(GuildNameObject);
             GuildNameObject.SetActive(true);
             GuildNameObject.GetComponentInChildren<Text>().text = guildInfos[i].guildName;
             GuildNameObject.GetComponent<Button>().onClick.AddListener(delegate 
             {
+
                 //길드 가입 요청 보내기
-                Debug.Log($"this is {GuildNameObject.GetComponentInChildren<Text>().text}");
+                Action action = () => 
+                {
+                    Packet packet = new Packet();
+
+                    int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userUid);
+
+                    packet.push((byte)Protocol.Guild);
+                    packet.push(length);
+                    packet.push((byte)GuildProtocol.RequestJoinGuild);
+                    packet.push(Global.Instance.standbyInfo.userUid);
+
+                    Debug.Log("서버에게 요청보냄");
+                };
+                PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.OKCANCEL, true, 2,action);
             });
         }
     }

@@ -1,4 +1,6 @@
 using UnityEngine;
+using Newtonsoft.Json;
+
 using UnityEngine.UI;
 
 public class SIGNUPVIEW : MonoBehaviour
@@ -17,7 +19,7 @@ public class SIGNUPVIEW : MonoBehaviour
         BackBtn.onClick.AddListener(delegate
         {
             gameObject.SetActive(false);
-            PopupController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
+            ViewController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
         });
     }
     private void SignUp()
@@ -28,7 +30,7 @@ public class SIGNUPVIEW : MonoBehaviour
         signUpInfo.id = idInputfield.text; 
         signUpInfo.pw = pwInputfield.text;
 
-        string signupInfoJSON = JsonUtility.ToJson(signUpInfo);
+        string signupInfoJSON = JsonConvert.SerializeObject(signUpInfo);
         int Length = 0x01 + Utils.GetLength(signupInfoJSON);
 
         Packet packet = new Packet();

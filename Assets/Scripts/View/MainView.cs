@@ -32,7 +32,7 @@ public class MainView : MonoBehaviour
         });
         guildOpenBtn.onClick.AddListener(delegate
         {
-            PopupController.Instance.SetActiveView(VIEWTYPE.GUILD, true);
+            ViewController.Instance.SetActiveView(VIEWTYPE.GUILD, true);
         });
         dropdown.onValueChanged.AddListener(delegate
         {

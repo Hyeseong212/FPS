@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Newtonsoft.Json;
+
 
 public class LOGINVIEW : MonoBehaviour
 {
@@ -41,7 +43,7 @@ public class LOGINVIEW : MonoBehaviour
 
         loginInfo.PW = PasswordInpuField.text;
 
-        string idAndPw = JsonUtility.ToJson(loginInfo);
+        string idAndPw = JsonConvert.SerializeObject(loginInfo);
 
         int length = 0x01 + 0x01 + Utils.GetLength(idAndPw);
 
@@ -55,7 +57,7 @@ public class LOGINVIEW : MonoBehaviour
     private void SignUp()
     {
         this.gameObject.SetActive(false);
-        PopupController.Instance.SetActiveView(VIEWTYPE.SIGNUP, true);
+        ViewController.Instance.SetActiveView(VIEWTYPE.SIGNUP, true);
     }
     public void LoginSuccess()
     {

@@ -38,7 +38,7 @@ public class LoginController : MonoBehaviour
                 TCPController.Instance.EnqueueDispatcher(() =>
                 {
                     Debug.Log("로긴 성공");
-                    PopupController.Instance.SetActiveView(VIEWTYPE.LOGIN, false);
+                    ViewController.Instance.SetActiveView(VIEWTYPE.LOGIN, false);
                 });
             }
             else if ((ResponseType)realData[1] == ResponseType.Fail)
@@ -53,7 +53,7 @@ public class LoginController : MonoBehaviour
                 //Debug.Log(message);
                 TCPController.Instance.EnqueueDispatcher(() =>
                 {
-                    PopupController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
+                    ViewController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
                     Debug.Log("로그아웃 성공");
                 });
             }
@@ -69,9 +69,9 @@ public class LoginController : MonoBehaviour
                 //Debug.Log(message);
                 TCPController.Instance.EnqueueDispatcher(() =>
                 {
-                    PopupController.Instance.SetActiveView(VIEWTYPE.SIGNUP, false);
-                    PopupController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
-                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 1);
+                    ViewController.Instance.SetActiveView(VIEWTYPE.SIGNUP, false);
+                    ViewController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
+                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 1, null);
                     Debug.Log("회원가입 성공");
                 });
             }
@@ -79,7 +79,7 @@ public class LoginController : MonoBehaviour
             {
                 TCPController.Instance.EnqueueDispatcher(() =>
                 {
-                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 0);
+                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 0, null);
                     Debug.Log("응 회원가입 실패 ㅅㄱ");
                 });
             }

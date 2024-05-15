@@ -7,6 +7,7 @@ public class MainFlow : MonoBehaviour
     private void Awake()
     {
         Global.Instance.Init();
+        ViewController.Instance.Init();
         GuildController.Instance.Init();
         LoginController.Instance.Init();
         ChatController.Instance.Init();

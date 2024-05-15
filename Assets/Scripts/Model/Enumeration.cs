@@ -10,7 +10,8 @@ public enum VIEWTYPE
 
 public enum POPUPTYPE
 {
-    MESSAGE
+    MESSAGE,
+    OKCANCEL
 }
 [Serializable]
 public class LoginInfo
@@ -63,11 +64,13 @@ public class GuildInfo
     public long guildUid;
     public string guildName;
     public List<GuildCrew> guildCrews;
+    public long guildLeader;
     public GuildInfo()
     {
         guildUid = long.MinValue;
         guildName = string.Empty;
         guildCrews = new List<GuildCrew>();
+        guildLeader = long.MinValue;
     }
 }
 [Serializable]
