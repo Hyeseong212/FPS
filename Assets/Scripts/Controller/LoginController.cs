@@ -1,7 +1,11 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoginController : MonoBehaviour
 {
@@ -33,8 +37,10 @@ public class LoginController : MonoBehaviour
         {
             if ((ResponseType)realData[1] == ResponseType.Success)
             {
-                long sendUseruidval = BitConverter.ToInt64(realData, 2);
-                Global.Instance.standbyInfo.userUid = sendUseruidval;
+                string userData = Encoding.UTF8.GetString(realData.Skip(2).ToArray());
+                UserEntity user = JsonConvert.DeserializeObject<UserEntity>(userData);
+
+                Global.Instance.standbyInfo.userEntity = user;
                 TCPController.Instance.EnqueueDispatcher(() =>
                 {
                     Debug.Log("로긴 성공");
@@ -54,6 +60,7 @@ public class LoginController : MonoBehaviour
                 TCPController.Instance.EnqueueDispatcher(() =>
                 {
                     ViewController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
+                    Global.Instance.standbyInfo.Reset();
                     Debug.Log("로그아웃 성공");
                 });
             }
@@ -84,5 +91,26 @@ public class LoginController : MonoBehaviour
                 });
             }
         }
+    }
+    public void Logout()
+    {
+        MainView mainView = FindAnyObjectByType<MainView>();
+
+        List<Text> textObjects = mainView.ChatParentObject.GetComponentsInChildren<Text>().ToList();
+
+        for(int i = 0; i < textObjects.Count; i++)
+        {
+            Destroy(textObjects[i]);
+        }
+
+        var message = new Packet();
+
+        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
+
+        message.push((byte)Protocol.Login);
+        message.push(length);
+        message.push((byte)LoginRequestType.LogoutRequest);
+        message.push(Global.Instance.standbyInfo.userEntity.UserUID);
+        TCPController.Instance.SendToServer(message);
     }
 }

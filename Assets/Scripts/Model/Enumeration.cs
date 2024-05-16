@@ -40,8 +40,7 @@ public class SignUpInfo
 [Serializable]
 public class StandbyInfo
 {
-    public long userUid;
-    public long guildUid;
+    public UserEntity userEntity;
 
     public StandbyInfo()
     {
@@ -49,8 +48,7 @@ public class StandbyInfo
     }
     public void Reset()
     {
-        userUid = long.MinValue;
-        guildUid = long.MinValue;
+        userEntity = new UserEntity();
     }
 }
 public class MessageInfo
@@ -82,5 +80,22 @@ public class GuildCrew
     {
         crewUid = long.MinValue;
         crewName = string.Empty;
+    }
+}
+[Serializable]
+public class UserEntity
+{
+    public long UserUID;
+    public string UserName;
+    public string Userid;
+    public string UserPW;
+    public long guildUID;
+    public UserEntity()
+    {
+        UserUID = long.MinValue;
+        UserName = string.Empty;
+        Userid = string.Empty;
+        UserPW = string.Empty;
+        guildUID = 0;
     }
 }

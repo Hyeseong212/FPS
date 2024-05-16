@@ -65,20 +65,34 @@ public class GUILDVIEW : MonoBehaviour
     }
     private void OnEnable()
     {
+        guildFindPanel.SetActive(false);
+        guildCrewsPanel.SetActive(false);
+
         //여기서 서버에다가 현재 유저가 길드에 가입되어있는지 확인해야됨
-        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userUid);
+        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
 
         Packet packet = new Packet();
         packet.push((byte)Protocol.Guild);
         packet.push(length);
         packet.push((byte)GuildProtocol.IsUserGuildEnable);
-        packet.push(Global.Instance.standbyInfo.userUid);
+        packet.push(Global.Instance.standbyInfo.userEntity.UserUID);
 
         TCPController.Instance.SendToServer(packet);
+
+        if (Global.Instance.standbyInfo.userEntity.guildUID != 0)//길드가입되어있을경우
+        {
+            createGuildName.gameObject.SetActive(false);
+            GuildCreate.gameObject.SetActive(false);
+        }
+        else//가입안되어있을경우
+        {
+            createGuildName.gameObject.SetActive(true);
+            GuildCreate.gameObject.SetActive(true);
+        }
     }
     private void FindGuild()
     {
-        for(int i = 0; i < guildInfoObject.Count; i++)
+        for (int i = 0; i < guildInfoObject.Count; i++)
         {
             Destroy(guildInfoObject[i]);
         }
@@ -106,24 +120,30 @@ public class GUILDVIEW : MonoBehaviour
             guildInfoObject.Add(GuildNameObject);
             GuildNameObject.SetActive(true);
             GuildNameObject.GetComponentInChildren<Text>().text = guildInfos[i].guildName;
-            GuildNameObject.GetComponent<Button>().onClick.AddListener(delegate 
+            GuildNameObject.GetComponent<Button>().onClick.AddListener(delegate
             {
-
-                //길드 가입 요청 보내기
-                Action action = () => 
+                if (Global.Instance.standbyInfo.userEntity.guildUID != 0)//길드가 가입돼있을경우
                 {
-                    Packet packet = new Packet();
+                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 3, null);
+                }
+                else//가입안돼있을경우
+                {
+                    //길드 가입 요청 보내기
+                    Action action = () =>
+                    {
+                        Packet packet = new Packet();
 
-                    int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userUid);
+                        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
 
-                    packet.push((byte)Protocol.Guild);
-                    packet.push(length);
-                    packet.push((byte)GuildProtocol.RequestJoinGuild);
-                    packet.push(Global.Instance.standbyInfo.userUid);
+                        packet.push((byte)Protocol.Guild);
+                        packet.push(length);
+                        packet.push((byte)GuildProtocol.RequestJoinGuild);
+                        packet.push(Global.Instance.standbyInfo.userEntity.UserUID);
 
-                    Debug.Log("서버에게 요청보냄");
-                };
-                PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.OKCANCEL, true, 2,action);
+                        Debug.Log("서버에게 요청보냄");
+                    };
+                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.OKCANCEL, true, 2, action);
+                }
             });
         }
     }
@@ -145,12 +165,12 @@ public class GUILDVIEW : MonoBehaviour
     {
         Packet packet = new Packet();
 
-        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userUid) + Utils.GetLength(createGuildName.text);
+        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID) + Utils.GetLength(createGuildName.text);
 
         packet.push((byte)Protocol.Guild);
         packet.push(length);
         packet.push((byte)GuildProtocol.CreateGuild);
-        packet.push(Global.Instance.standbyInfo.userUid);
+        packet.push(Global.Instance.standbyInfo.userEntity.UserUID);
         packet.push(createGuildName.text);
 
         TCPController.Instance.SendToServer(packet);

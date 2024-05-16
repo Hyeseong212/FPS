@@ -127,15 +127,8 @@ public class TCPController : MonoBehaviour
                 GuildController.Instance.ProcessGuildPacket(realData);
                 break;
             case (byte)Protocol.Chat:
-                string message = Encoding.UTF8.GetString(buffer, 5, length);
-                string str = "";
-                for (int i = 5; i < length + 5; i++)
-                {
-                    if (i != length + 5 - 1) str += buffer[i] + "|";
-                    else str += buffer[i];
-                }
-                //Debug.Log("length : " + length + ", data : " + str);
-                ChatController.Instance.ReceiveMessage(message);
+                ChatController.Instance.ProcessChatPacket(realData, length);
+
                 break;
             case (byte)Protocol.Match:
                 break;

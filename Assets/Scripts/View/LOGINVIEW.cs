@@ -14,8 +14,6 @@ public class LOGINVIEW : MonoBehaviour
 
     void Start()
     {
-
-
         loginBtn.onClick.AddListener(delegate
         {
             Login();
@@ -27,10 +25,30 @@ public class LOGINVIEW : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             IDInputField.text = "netrogold";
             PasswordInpuField.text = "Sjh011009!";
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            IDInputField.text = "Rbiotech";
+            PasswordInpuField.text = "1507";
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            IDInputField.text = "netrohong";
+            PasswordInpuField.text = "Sjh011009!";
+        }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            IDInputField.text = "netrosjh";
+            PasswordInpuField.text = "Sjh011009!";
+        }
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            IDInputField.text = "new";
+            PasswordInpuField.text = "new!";
         }
     }
     private void Login() 
