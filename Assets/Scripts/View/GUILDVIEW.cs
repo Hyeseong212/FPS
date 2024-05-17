@@ -65,6 +65,14 @@ public class GUILDVIEW : MonoBehaviour
     }
     private void OnEnable()
     {
+        findGuildNameTextPanel.text = "";
+
+        for (int i = 0; i < guildInfoObject.Count; i++)
+        {
+            Destroy(guildInfoObject[i]);
+        }
+        guildInfoObject.Clear();
+
         guildFindPanel.SetActive(false);
         guildCrewsPanel.SetActive(false);
 
@@ -96,6 +104,7 @@ public class GUILDVIEW : MonoBehaviour
         {
             Destroy(guildInfoObject[i]);
         }
+        guildInfoObject.Clear();
 
         Packet packet = new Packet();
 

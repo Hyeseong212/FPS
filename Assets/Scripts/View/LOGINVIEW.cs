@@ -77,9 +77,4 @@ public class LOGINVIEW : MonoBehaviour
         this.gameObject.SetActive(false);
         ViewController.Instance.SetActiveView(VIEWTYPE.SIGNUP, true);
     }
-    public void LoginSuccess()
-    {
-        this.gameObject.SetActive(false);
-
-    }
 }
