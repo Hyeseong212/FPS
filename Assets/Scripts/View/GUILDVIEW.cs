@@ -120,6 +120,7 @@ public class GUILDVIEW : MonoBehaviour
             guildInfoObject.Add(GuildNameObject);
             GuildNameObject.SetActive(true);
             GuildNameObject.GetComponentInChildren<Text>().text = guildInfos[i].guildName;
+            GuildNameObject.GetComponent<GuildProfile>().guildinfo = guildInfos[i];
             GuildNameObject.GetComponent<Button>().onClick.AddListener(delegate
             {
                 if (Global.Instance.standbyInfo.userEntity.guildUID != 0)//길드가 가입돼있을경우
@@ -133,14 +134,14 @@ public class GUILDVIEW : MonoBehaviour
                     {
                         Packet packet = new Packet();
 
-                        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
+                        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID) + Utils.GetLength(GuildNameObject.GetComponent<GuildProfile>().guildinfo.guildUid);
 
                         packet.push((byte)Protocol.Guild);
                         packet.push(length);
                         packet.push((byte)GuildProtocol.RequestJoinGuild);
                         packet.push(Global.Instance.standbyInfo.userEntity.UserUID);
-
-                        Debug.Log("서버에게 요청보냄");
+                        packet.push(GuildNameObject.GetComponent<GuildProfile>().guildinfo.guildUid);
+                        TCPController.Instance.SendToServer(packet);
                     };
                     PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.OKCANCEL, true, 2, action);
                 }

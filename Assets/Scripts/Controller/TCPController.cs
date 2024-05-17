@@ -34,7 +34,7 @@ public class TCPController : MonoBehaviour
     public void Init()
     {
         Debug.Log("TCPController Init Complete");
-        ConnectToServer(Global.Instance.homeip, 9000); // 서버 IP 주소 및 포트
+        ConnectToServer(Global.Instance.companyip, 9000); // 서버 IP 주소 및 포트
     }
 
     void OnApplicationQuit()
