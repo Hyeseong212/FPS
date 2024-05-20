@@ -41,6 +41,7 @@ public class SignUpInfo
 public class StandbyInfo
 {
     public UserEntity userEntity;
+    public GuildInfo guildInfo;
 
     public StandbyInfo()
     {
@@ -49,6 +50,7 @@ public class StandbyInfo
     public void Reset()
     {
         userEntity = new UserEntity();
+        guildInfo = new GuildInfo();
     }
 }
 public class MessageInfo
@@ -63,12 +65,14 @@ public class GuildInfo
     public string guildName;
     public List<GuildCrew> guildCrews;
     public long guildLeader;
+    public List<UserEntity> guildRequest;
     public GuildInfo()
     {
         guildUid = long.MinValue;
         guildName = string.Empty;
         guildCrews = new List<GuildCrew>();
         guildLeader = long.MinValue;
+        guildRequest = new List<UserEntity>();
     }
 }
 [Serializable]

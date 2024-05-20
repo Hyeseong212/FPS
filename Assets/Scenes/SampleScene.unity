@@ -1000,7 +1000,7 @@ GameObject:
   - component: {fileID: 247475924}
   - component: {fileID: 247475923}
   m_Layer: 5
-  m_Name: SignupPanel
+  m_Name: JoinRequest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1824,7 +1824,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1850577014}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999838
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2104,7 +2104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &505692495
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3708,8 +3708,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300, y: -12}
-  m_SizeDelta: {x: 600, y: 24}
+  m_AnchoredPosition: {x: 108.23, y: -12}
+  m_SizeDelta: {x: 216.47, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &852098861
 MonoBehaviour:
@@ -4866,6 +4866,7 @@ MonoBehaviour:
     guildName: 
     guildCrews: []
     guildLeader: -9223372036854775808
+    guildRequest: []
 --- !u!1 &1038008864
 GameObject:
   m_ObjectHideFlags: 0
@@ -6992,7 +6993,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 600, y: 24}
+  m_CellSize: {x: 233, y: 24}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -8960,7 +8961,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000013610044}
+  m_AnchoredPosition: {x: 0, y: 0.000091624155}
   m_SizeDelta: {x: 0, y: 328}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1580057383
@@ -9047,6 +9048,8 @@ MonoBehaviour:
   guildCrewsPanel: {fileID: 505692494}
   guildCrewsContainer: {fileID: 1488316508}
   guildCrewsNameObject: {fileID: 1990122425}
+  joinRequestContainerObject: {fileID: 1375149743}
+  joinRequestBtn: {fileID: 852098859}
   GuildFindPanelBtn: {fileID: 199040178}
   GuildCrewPanelBtn: {fileID: 1293659274}
   guildInfos: []

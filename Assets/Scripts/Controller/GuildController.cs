@@ -27,7 +27,7 @@ public class GuildController : MonoBehaviour
         }
     }
 
-
+    private List<UserEntity> JoinRequestUsers = new List<UserEntity>();
 
     public void Init()
     {
@@ -38,10 +38,6 @@ public class GuildController : MonoBehaviour
         if ((GuildProtocol)data[0] == GuildProtocol.CreateGuild)
         {
 
-        }
-        else if ((GuildProtocol)data[0] == GuildProtocol.IsUserGuildEnable)
-        {
-            SendPacketGetGuildName(data);
         }
         else if ((GuildProtocol)data[0] == GuildProtocol.SelectGuildCrew)
         {
@@ -54,7 +50,7 @@ public class GuildController : MonoBehaviour
         else if ((GuildProtocol)data[0] == GuildProtocol.SelectGuildUid)
         {
             byte[] guildNameByte = data.Skip(1).ToArray();
-            SetGuildName(guildNameByte);
+            SetGuildInfo(guildNameByte);
         }
     }
     private void SetGuildNameFromServer(byte[] data)
@@ -68,43 +64,20 @@ public class GuildController : MonoBehaviour
             guildView.FindedGuildSort(guildInfos);
         });
     }
-    private void SendPacketGetGuildName(byte[] data)
+    private void SetGuildInfo(byte[] data)
     {
-        long uidval = BitConverter.ToInt64(data.Skip(1).ToArray(), 0);
-        Packet packet = new Packet();
-        if (uidval != long.MinValue)
-        {
-            int length = 0x01 + Utils.GetLength(uidval);
+        string guildinfoSTR = Encoding.UTF8.GetString(data);
 
-            packet.push((byte)Protocol.Guild);
-            packet.push(length);
-            packet.push((byte)GuildProtocol.SelectGuildUid);
-            packet.push(uidval);
-
-            TCPController.Instance.SendToServer(packet);
-        }
-        else
-        {
-            TCPController.Instance.EnqueueDispatcher(delegate
-            {
-                GUILDVIEW guildView = FindObjectOfType<GUILDVIEW>(true);
-                guildView.SetActiveGuildFindPanel(true);
-                guildView.SetUserGuildName("가입된 길드가 없습니다");
-            });
-        }
-
-
-    }
-    private void SetGuildName(byte[] data)
-    {
-        string guildName = Encoding.UTF8.GetString(data);
+        Global.Instance.standbyInfo.guildInfo = JsonConvert.DeserializeObject<GuildInfo>(guildinfoSTR);
 
         TCPController.Instance.EnqueueDispatcher(delegate
         {
             GUILDVIEW guildView = FindObjectOfType<GUILDVIEW>(true);
             guildView.SetActiveGuildFindPanel(false);
             guildView.SetActiveGuildCrewsPanel(true);
-            guildView.SetUserGuildName(guildName);
+            guildView.SetUserGuildName(Global.Instance.standbyInfo.guildInfo.guildName);
+
+            guildView.JoinRequestSort();
         });
     }
 }

@@ -23,6 +23,10 @@ public class GUILDVIEW : MonoBehaviour
     [SerializeField] GameObject guildCrewsContainer;
     [SerializeField] GameObject guildCrewsNameObject;
 
+    [SerializeField] GameObject joinRequestContainerObject;
+    [SerializeField] GameObject joinRequestBtn;
+
+
 
     [Header("풋")]
     [SerializeField] Button GuildFindPanelBtn;
@@ -76,24 +80,26 @@ public class GUILDVIEW : MonoBehaviour
         guildFindPanel.SetActive(false);
         guildCrewsPanel.SetActive(false);
 
-        //여기서 서버에다가 현재 유저가 길드에 가입되어있는지 확인해야됨
-        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
-
-        Packet packet = new Packet();
-        packet.push((byte)Protocol.Guild);
-        packet.push(length);
-        packet.push((byte)GuildProtocol.IsUserGuildEnable);
-        packet.push(Global.Instance.standbyInfo.userEntity.UserUID);
-
-        TCPController.Instance.SendToServer(packet);
-
         if (Global.Instance.standbyInfo.userEntity.guildUID != 0)//길드가입되어있을경우
         {
+            Packet sendingGuildInfoRequest = new Packet();
+
+            int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.guildUID);
+
+            sendingGuildInfoRequest.push((byte)Protocol.Guild);
+            sendingGuildInfoRequest.push(length);
+            sendingGuildInfoRequest.push((byte)GuildProtocol.SelectGuildUid);
+            sendingGuildInfoRequest.push(Global.Instance.standbyInfo.userEntity.guildUID);
+
+            TCPController.Instance.SendToServer(sendingGuildInfoRequest);
+
             createGuildName.gameObject.SetActive(false);
             GuildCreate.gameObject.SetActive(false);
         }
         else//가입안되어있을경우
         {
+            SetUserGuildName("가입된 길드가 없습니다");
+
             createGuildName.gameObject.SetActive(true);
             GuildCreate.gameObject.SetActive(true);
         }
@@ -167,6 +173,31 @@ public class GUILDVIEW : MonoBehaviour
             GuildNameObject.GetComponent<Button>().onClick.AddListener(delegate
             {
                 //귓속말 보내기 플로팅 띄우기
+                Debug.Log($"this is {GuildNameObject.GetComponentInChildren<Text>().text}");
+            });
+        }
+    }
+
+
+    public void JoinRequestSort()
+    {
+        for (int i = 0; i < Global.Instance.standbyInfo.guildInfo.guildRequest.Count; i++)
+        {
+            GameObject GuildNameObject = Instantiate(joinRequestBtn, joinRequestContainerObject.transform);
+            GuildNameObject.SetActive(true);
+            GuildNameObject.GetComponentInChildren<Text>().text = Global.Instance.standbyInfo.guildInfo.guildRequest[i].UserName;
+            GuildNameObject.GetComponent<Button>().onClick.AddListener(delegate
+            {
+                Action action = () =>
+                {
+                    Destroy(GuildNameObject);
+
+
+
+                    Debug.Log($"Sending Server To Request OK");
+                };
+                PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.OKCANCEL, true, 4, action);
+                //요청 팝업 띄우기
                 Debug.Log($"this is {GuildNameObject.GetComponentInChildren<Text>().text}");
             });
         }
