@@ -38,6 +38,7 @@ public class Global : MonoBehaviour
             new MessageInfo() {  idx = 2, message = "가입 신청을 넣으시겠습니까?" },
             new MessageInfo() {  idx = 3, message = "이미 가입한 길드가 있어 \n 가입신청을 넣을수 없습니다" },
             new MessageInfo() {  idx = 4, message = "요청을 수락하시겠습니까?" },
+            new MessageInfo() {  idx = 5, message = "ID를 입력해주세요" }
         };
     }
 }

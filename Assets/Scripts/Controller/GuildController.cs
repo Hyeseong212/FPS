@@ -52,6 +52,25 @@ public class GuildController : MonoBehaviour
             byte[] guildNameByte = data.Skip(1).ToArray();
             SetGuildInfo(guildNameByte);
         }
+        else if ((GuildProtocol)data[0] == GuildProtocol.RequestJoinOK)
+        {
+            byte[] guildInfoByte = data.Skip(1).ToArray();
+            ChangeGuildInfo(guildInfoByte);
+        }
+    }
+    private void ChangeGuildInfo(byte[] guildInfoPacket)
+    {
+        string strguildInfos = Encoding.UTF8.GetString(guildInfoPacket);
+
+        GuildInfo guildInfo = JsonConvert.DeserializeObject<GuildInfo>(strguildInfos);
+
+        Global.Instance.standbyInfo.guildInfo = guildInfo;
+
+        TCPController.Instance.EnqueueDispatcher(delegate
+        {
+            GUILDVIEW guildView = FindObjectOfType<GUILDVIEW>(true);
+            guildView.UpdateGuildInfo(guildInfo);
+        });
     }
     private void SetGuildNameFromServer(byte[] data)
     {
@@ -77,7 +96,7 @@ public class GuildController : MonoBehaviour
             guildView.SetActiveGuildCrewsPanel(true);
             guildView.SetUserGuildName(Global.Instance.standbyInfo.guildInfo.guildName);
 
-            guildView.JoinRequestSort();
+            guildView.UpdateGuildInfo(Global.Instance.standbyInfo.guildInfo);
         });
     }
 }

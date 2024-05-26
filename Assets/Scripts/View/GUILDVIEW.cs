@@ -33,6 +33,8 @@ public class GUILDVIEW : MonoBehaviour
     [SerializeField] Button GuildCrewPanelBtn;
 
     List<GameObject> guildInfoObject = new List<GameObject>();
+    List<GameObject> guildCrewObject = new List<GameObject>();
+    List<GameObject> JoinRequestObject = new List<GameObject>();
 
     //테스트 코드
     public List<GuildInfo> guildInfos = new List<GuildInfo>();
@@ -127,6 +129,26 @@ public class GUILDVIEW : MonoBehaviour
     {
         GuildCrewsNameSort(guildcrews);
     }
+
+    public void UpdateGuildInfo(GuildInfo guildinfo)
+    {
+        //크루패널에 크루추가
+        for (int i = 0; i < guildCrewObject.Count; i++)
+        {
+            Destroy(guildCrewObject[i]);
+        }
+
+        for (int i = 0; i < guildinfo.guildCrews.Count; i++)
+        {
+            GameObject go = Instantiate(guildCrewsNameObject, guildCrewsContainer.transform);
+            go.SetActive(true);
+            guildCrewObject.Add(go);
+            go.AddComponent<GuildCrewInfo>();
+            go.GetComponent<GuildCrewInfo>().guildCrew = guildinfo.guildCrews[i];
+            go.GetComponentInChildren<Text>().text = guildinfo.guildCrews[i].crewName;
+        }
+        JoinRequestSort();
+    }
     public void FindedGuildSort(List<GuildInfo> guildInfos)
     {
         for (int i = 0; i < guildInfos.Count; i++)
@@ -181,10 +203,18 @@ public class GUILDVIEW : MonoBehaviour
 
     public void JoinRequestSort()
     {
+        for(int i = 0; i < JoinRequestObject.Count; i++)
+        {
+            Destroy(JoinRequestObject[i]);
+        }
+
         for (int i = 0; i < Global.Instance.standbyInfo.guildInfo.guildRequest.Count; i++)
         {
             GameObject GuildNameObject = Instantiate(joinRequestBtn, joinRequestContainerObject.transform);
+            JoinRequestObject.Add(GuildNameObject);
             GuildNameObject.SetActive(true);
+            GuildNameObject.AddComponent<JoinRequestInfo>();
+            GuildNameObject.GetComponent<JoinRequestInfo>().RequestUser = Global.Instance.standbyInfo.guildInfo.guildRequest[i];
             GuildNameObject.GetComponentInChildren<Text>().text = Global.Instance.standbyInfo.guildInfo.guildRequest[i].UserName;
             GuildNameObject.GetComponent<Button>().onClick.AddListener(delegate
             {
@@ -192,9 +222,18 @@ public class GUILDVIEW : MonoBehaviour
                 {
                     Destroy(GuildNameObject);
 
+                    Packet sendServerRequestOK = new Packet();
 
+                    int length = 0x01 + Utils.GetLength(GuildNameObject.GetComponent<JoinRequestInfo>().RequestUser.UserUID) + Utils.GetLength(Global.Instance.standbyInfo.userEntity.guildUID);
 
-                    Debug.Log($"Sending Server To Request OK");
+                    sendServerRequestOK.push((byte)Protocol.Guild);
+                    sendServerRequestOK.push(length);
+                    sendServerRequestOK.push((byte)GuildProtocol.RequestJoinOK);
+                    sendServerRequestOK.push(GuildNameObject.GetComponent<JoinRequestInfo>().RequestUser.UserUID);
+                    sendServerRequestOK.push(Global.Instance.standbyInfo.userEntity.guildUID);
+
+                    TCPController.Instance.SendToServer(sendServerRequestOK);
+                    //Debug.Log($"Sending Server To Request User {GuildNameObject.GetComponent<JoinRequestInfo>().RequestUser.UserUID} OK");
                 };
                 PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.OKCANCEL, true, 4, action);
                 //요청 팝업 띄우기

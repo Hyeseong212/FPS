@@ -53,6 +53,13 @@ public class LOGINVIEW : MonoBehaviour
     }
     private void Login() 
     {
+        if (string.IsNullOrEmpty(IDInputField.text))
+        {
+            PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true,5 ,null);
+            return;
+        }
+
+
         var message = new Packet();
 
         LoginInfo loginInfo = new LoginInfo();
