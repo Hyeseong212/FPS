@@ -57,6 +57,28 @@ public class GuildController : MonoBehaviour
             byte[] guildInfoByte = data.Skip(1).ToArray();
             ChangeGuildInfo(guildInfoByte);
         }
+        else if ((GuildProtocol)data[0] == GuildProtocol.GuildResign)
+        {
+            byte[] Response = data.Skip(1).ToArray();
+            ProcessResign(Response);
+        }
+    }
+    private void ProcessResign(byte[] Response)
+    {
+        if(Response[0] == 0x00) //성공할경우
+        {
+            Global.Instance.standbyInfo.userEntity.guildUID = 0;
+            Global.Instance.standbyInfo.guildInfo = new GuildInfo();
+            TCPController.Instance.EnqueueDispatcher(delegate
+            {
+                GUILDVIEW guildView = FindObjectOfType<GUILDVIEW>(true);
+                guildView.GuildResingUpdate();
+            });
+        }
+        else
+        {
+            Debug.Log("길드탈퇴실패");
+        }
     }
     private void ChangeGuildInfo(byte[] guildInfoPacket)
     {

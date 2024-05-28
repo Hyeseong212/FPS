@@ -26,7 +26,7 @@ public class GUILDVIEW : MonoBehaviour
     [SerializeField] GameObject joinRequestContainerObject;
     [SerializeField] GameObject joinRequestBtn;
 
-
+    [SerializeField] Button guildResignBtn;
 
     [Header("풋")]
     [SerializeField] Button GuildFindPanelBtn;
@@ -38,7 +38,7 @@ public class GUILDVIEW : MonoBehaviour
 
     //테스트 코드
     public List<GuildInfo> guildInfos = new List<GuildInfo>();
-    List<GuildCrew> guildcrews = new List<GuildCrew>();
+    public List<GuildCrew> guildcrews = new List<GuildCrew>();
 
     private void Start()
     {
@@ -59,6 +59,10 @@ public class GUILDVIEW : MonoBehaviour
         {
             guildCrewsPanel.SetActive(true);
             guildFindPanel.SetActive(false);
+        });
+        guildResignBtn.onClick.AddListener(delegate
+        {
+            GuildResign();
         });
     }
     private void Update()
@@ -97,14 +101,50 @@ public class GUILDVIEW : MonoBehaviour
 
             createGuildName.gameObject.SetActive(false);
             GuildCreate.gameObject.SetActive(false);
+
+            guildResignBtn.gameObject.SetActive(true);
         }
         else//가입안되어있을경우
         {
             SetUserGuildName("가입된 길드가 없습니다");
 
+
+
             createGuildName.gameObject.SetActive(true);
             GuildCreate.gameObject.SetActive(true);
+
+            guildResignBtn.gameObject.SetActive(false);
         }
+    }
+    public void GuildResingUpdate()
+    {
+        SetUserGuildName("가입된 길드가 없습니다");
+
+        createGuildName.gameObject.SetActive(true);
+        GuildCreate.gameObject.SetActive(true);
+
+        guildResignBtn.gameObject.SetActive(false);
+
+        var gcc = guildCrewsContainer.GetComponentsInChildren<Button>();
+
+        for (int i = 0; i < gcc.Length; i++)
+        {
+            Destroy(gcc[i].gameObject);
+        }
+        guildCrewObject.Clear();
+    }
+    private void GuildResign()
+    {
+        Packet packet = new Packet();
+
+        int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
+
+        packet.push((byte)Protocol.Guild);
+        packet.push(length);
+        packet.push((byte)GuildProtocol.GuildResign);
+        packet.push(Global.Instance.standbyInfo.userEntity.UserUID);
+
+        TCPController.Instance.SendToServer(packet);
     }
     private void FindGuild()
     {
@@ -203,7 +243,7 @@ public class GUILDVIEW : MonoBehaviour
 
     public void JoinRequestSort()
     {
-        for(int i = 0; i < JoinRequestObject.Count; i++)
+        for (int i = 0; i < JoinRequestObject.Count; i++)
         {
             Destroy(JoinRequestObject[i]);
         }
