@@ -25,7 +25,8 @@ public class Global : MonoBehaviour
     }
     public StandbyInfo standbyInfo;
     public List<MessageInfo> messageInfos;
-    public string serverIP = "192.168.123.1";
+    //public string serverIP = "192.168.123.1";
+    public string serverIP = "127.0.0.1";
     //public string serverIP = "192.168.219.100";
     public void Init()
     {

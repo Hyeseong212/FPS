@@ -5,7 +5,8 @@ public enum VIEWTYPE
 {
     LOGIN,
     SIGNUP,
-    GUILD
+    GUILD,
+    GAMESTART
 }
 
 public enum POPUPTYPE
@@ -43,6 +44,10 @@ public class StandbyInfo
     public UserEntity userEntity;
     public GuildInfo guildInfo;
 
+    public GameType gameType;
+
+    public bool isMatchingNow; 
+
     public StandbyInfo()
     {
         Reset();
@@ -51,6 +56,8 @@ public class StandbyInfo
     {
         userEntity = new UserEntity();
         guildInfo = new GuildInfo();
+        isMatchingNow = false;
+        gameType = GameType.Default;
     }
 }
 public class MessageInfo

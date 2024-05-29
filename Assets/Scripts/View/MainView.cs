@@ -1,17 +1,17 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainView : MonoBehaviour
 {
+    Stopwatch stopwatch = new Stopwatch();
+
     public long ReceiveUID = 638506276349467624;
 
     public InputField inputField;
-    
+
     public GameObject ChatObject;
     public GameObject ChatParentObject;
     public ScrollRect chatScrollbar;
@@ -22,6 +22,10 @@ public class MainView : MonoBehaviour
     [SerializeField] Button sendBtn;
     [SerializeField] Button logoutBtn;
     [SerializeField] Button guildOpenBtn;
+    [SerializeField] Button gameStartBtn;
+    [SerializeField] Button gameStopBtn;
+
+    [SerializeField] Text queueTimerText;
 
     ChatStatus ChatStatus = ChatStatus.ENTIRE;
 
@@ -30,6 +34,30 @@ public class MainView : MonoBehaviour
         sendBtn.onClick.AddListener(delegate
         {
             SendMessage();
+        });
+        gameStartBtn.onClick.AddListener(delegate
+        {
+            ViewController.Instance.SetActiveView(VIEWTYPE.GAMESTART, true);
+        });
+        gameStopBtn.onClick.AddListener(delegate
+        {
+            Packet packet = new Packet();
+
+            int length = 0x01 + 0x01 +Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
+
+            packet.push((byte)Protocol.Match);
+            packet.push(length);
+            packet.push((byte)MatchProtocol.MatchStop);
+            packet.push((byte)Global.Instance.standbyInfo.gameType);
+            packet.push(Global.Instance.standbyInfo.userEntity.UserUID);
+
+            TCPController.Instance.SendToServer(packet);
+
+            Global.Instance.standbyInfo.gameType = GameType.Default;
+
+            Global.Instance.standbyInfo.isMatchingNow = false;
+
+            ChangeGameQueueStatus();
         });
         guildOpenBtn.onClick.AddListener(delegate
         {
@@ -49,7 +77,7 @@ public class MainView : MonoBehaviour
                     ChatStatus = ChatStatus.GUILD;
                     break;
             }
-            
+
         });
         logoutBtn.onClick.AddListener(delegate
         {
@@ -60,11 +88,15 @@ public class MainView : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
             SendMessage();
+
+        TimeSpan ts = stopwatch.Elapsed;
+        string elapsedTime = string.Format("{0:mm\\:ss}", ts);
+        queueTimerText.text = elapsedTime;
     }
 
     public void SendMessage()
     {
-        if(ChatStatus == ChatStatus.ENTIRE)
+        if (ChatStatus == ChatStatus.ENTIRE)
         {
             var message = new Packet();
 
@@ -110,7 +142,27 @@ public class MainView : MonoBehaviour
             TCPController.Instance.SendToServer(message);
             inputField.text = "";
         }
-
     }
+    public void QueueTimerSet()
+    {
+        ChangeGameQueueStatus();
+    }
+    private void ChangeGameQueueStatus()
+    {
+        if (Global.Instance.standbyInfo.isMatchingNow)
+        {
+            stopwatch.Start();
 
+            gameStartBtn.gameObject.SetActive(false);
+            gameStopBtn.gameObject.SetActive(true);
+        }
+        else
+        {
+            stopwatch.Reset();
+            stopwatch.Stop();
+
+            gameStartBtn.gameObject.SetActive(true);
+            gameStopBtn.gameObject.SetActive(false);
+        }
+    }
 }

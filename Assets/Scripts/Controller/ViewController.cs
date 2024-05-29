@@ -26,6 +26,7 @@ public class ViewController : MonoBehaviour
     [SerializeField] LOGINVIEW loginpopup;
     [SerializeField] SIGNUPVIEW signpopup;
     [SerializeField] GUILDVIEW guildView;
+    [SerializeField] GameStartView gameStartView;
 
     public void Init()
     {
@@ -43,6 +44,9 @@ public class ViewController : MonoBehaviour
                 break;
             case VIEWTYPE.GUILD:
                 guildView.gameObject.SetActive(isActive);
+                break;
+            case VIEWTYPE.GAMESTART:
+                gameStartView.gameObject.SetActive(isActive);
                 break;
             default:
                 Debug.Log("This Popup Type is not Exist");
