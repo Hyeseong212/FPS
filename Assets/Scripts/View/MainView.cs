@@ -43,7 +43,7 @@ public class MainView : MonoBehaviour
         {
             Packet packet = new Packet();
 
-            int length = 0x01 + 0x01 +Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
+            int length = 0x01 + 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
 
             packet.push((byte)Protocol.Match);
             packet.push(length);
@@ -89,9 +89,7 @@ public class MainView : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
             SendMessage();
 
-        TimeSpan ts = stopwatch.Elapsed;
-        string elapsedTime = string.Format("{0:mm\\:ss}", ts);
-        queueTimerText.text = elapsedTime;
+        queueTimerText.text = string.Format("{0:mm\\:ss}", stopwatch.Elapsed);
     }
 
     public void SendMessage()
@@ -147,11 +145,13 @@ public class MainView : MonoBehaviour
     {
         ChangeGameQueueStatus();
     }
-    private void ChangeGameQueueStatus()
+    public void ChangeGameQueueStatus()
     {
         if (Global.Instance.standbyInfo.isMatchingNow)
         {
             stopwatch.Start();
+
+            queueTimerText.gameObject.SetActive(true);
 
             gameStartBtn.gameObject.SetActive(false);
             gameStopBtn.gameObject.SetActive(true);
@@ -160,6 +160,8 @@ public class MainView : MonoBehaviour
         {
             stopwatch.Reset();
             stopwatch.Stop();
+
+            queueTimerText.gameObject.SetActive(false);
 
             gameStartBtn.gameObject.SetActive(true);
             gameStopBtn.gameObject.SetActive(false);

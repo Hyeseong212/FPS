@@ -32,7 +32,7 @@ public class PopupController : MonoBehaviour
         Debug.Log("PopupController Init Complete");
     }
 
-    public void SetActivePopupWithMessage(POPUPTYPE type, bool isActive, int messageIdx, Action action)
+    public void SetActivePopupWithMessage(POPUPTYPE type, bool isActive, int messageIdx, Action OKaction, Action CancelAction)
     {
         switch (type)
         {
@@ -42,7 +42,7 @@ public class PopupController : MonoBehaviour
                 break;
             case POPUPTYPE.OKCANCEL:
                 okcancelpopup.gameObject.SetActive(isActive);
-                okcancelpopup.GetComponent<OKCANCLEPOPUP>().Init(messageIdx, action);
+                okcancelpopup.GetComponent<OKCANCLEPOPUP>().Init(messageIdx, OKaction, CancelAction);
                 break;
             default:
                 Debug.Log("This Popup Type is not Exist");

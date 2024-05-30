@@ -78,7 +78,7 @@ public class LoginController : MonoBehaviour
                 {
                     ViewController.Instance.SetActiveView(VIEWTYPE.SIGNUP, false);
                     ViewController.Instance.SetActiveView(VIEWTYPE.LOGIN, true);
-                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 1, null);
+                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 1, null, null);
                     Debug.Log("회원가입 성공");
                 });
             }
@@ -86,7 +86,7 @@ public class LoginController : MonoBehaviour
             {
                 TCPController.Instance.EnqueueDispatcher(() =>
                 {
-                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 0, null);
+                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 0, null,null);
                     Debug.Log("응 회원가입 실패 ㅅㄱ");
                 });
             }
@@ -95,6 +95,24 @@ public class LoginController : MonoBehaviour
     public void Logout()
     {
         MainView mainView = FindAnyObjectByType<MainView>();
+
+        Packet packet = new Packet();
+
+        int length2 = 0x01 + 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
+
+        packet.push((byte)Protocol.Match);
+        packet.push(length2);
+        packet.push((byte)MatchProtocol.MatchStop);
+        packet.push((byte)Global.Instance.standbyInfo.gameType);
+        packet.push(Global.Instance.standbyInfo.userEntity.UserUID);
+
+        TCPController.Instance.SendToServer(packet);
+
+        Global.Instance.standbyInfo.gameType = GameType.Default;
+
+        Global.Instance.standbyInfo.isMatchingNow = false;
+
+        mainView.ChangeGameQueueStatus();
 
         List<Text> textObjects = mainView.ChatParentObject.GetComponentsInChildren<Text>().ToList();
 
@@ -112,5 +130,7 @@ public class LoginController : MonoBehaviour
         message.push((byte)LoginRequestType.LogoutRequest);
         message.push(Global.Instance.standbyInfo.userEntity.UserUID);
         TCPController.Instance.SendToServer(message);
+
+        mainView.QueueTimerSet();
     }
 }

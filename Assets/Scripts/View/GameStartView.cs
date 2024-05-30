@@ -18,6 +18,13 @@ public class GameStartView : MonoBehaviour
             SelectRankGameStart();
         });
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
     private void SelectNormalGameStart()
     {
         Global.Instance.standbyInfo.isMatchingNow = true;
@@ -60,6 +67,8 @@ public class GameStartView : MonoBehaviour
 
         MainView mainView = FindObjectOfType<MainView>(true);
         mainView.QueueTimerSet();
+
+        this.gameObject.SetActive(false);
     }
 
 }

@@ -128,9 +128,9 @@ public class TCPController : MonoBehaviour
                 break;
             case (byte)Protocol.Chat:
                 ChatController.Instance.ProcessChatPacket(realData, length);
-
                 break;
             case (byte)Protocol.Match:
+                MatchingController.Instance.ProcessMatchingPacket(realData, length);
                 break;
 
             default:

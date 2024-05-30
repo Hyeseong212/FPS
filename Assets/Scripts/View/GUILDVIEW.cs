@@ -202,7 +202,7 @@ public class GUILDVIEW : MonoBehaviour
             {
                 if (Global.Instance.standbyInfo.userEntity.guildUID != 0)//길드가 가입돼있을경우
                 {
-                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 3, null);
+                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true, 3, null, null);
                 }
                 else//가입안돼있을경우
                 {
@@ -220,7 +220,7 @@ public class GUILDVIEW : MonoBehaviour
                         packet.push(GuildNameObject.GetComponent<GuildProfile>().guildinfo.guildUid);
                         TCPController.Instance.SendToServer(packet);
                     };
-                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.OKCANCEL, true, 2, action);
+                    PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.OKCANCEL, true, 2, action,null);
                 }
             });
         }
@@ -275,7 +275,7 @@ public class GUILDVIEW : MonoBehaviour
                     TCPController.Instance.SendToServer(sendServerRequestOK);
                     //Debug.Log($"Sending Server To Request User {GuildNameObject.GetComponent<JoinRequestInfo>().RequestUser.UserUID} OK");
                 };
-                PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.OKCANCEL, true, 4, action);
+                PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.OKCANCEL, true, 4, action,null);
                 //요청 팝업 띄우기
                 Debug.Log($"this is {GuildNameObject.GetComponentInChildren<Text>().text}");
             });

@@ -10,23 +10,32 @@ public class OKCANCLEPOPUP : MonoBehaviour
     [SerializeField] Button OKbtn;
     [SerializeField] Button Cancelbtn;
 
-    Action thisAction;
+    Action thisOKAction;
+    Action thisCancelAction;
 
     public void Start()
     {
         OKbtn.onClick.AddListener(delegate
         {
-            thisAction.Invoke();
+            if (thisOKAction != null)
+            {
+                thisOKAction.Invoke();
+            }
             gameObject.SetActive(false);
         });
         Cancelbtn.onClick.AddListener(delegate
         {
+            if (thisCancelAction != null)
+            {
+                thisCancelAction.Invoke();
+            }
             gameObject.SetActive(false);
         });
     }
-    public void Init(int messageIdx, Action action)
+    public void Init(int messageIdx, Action OkAction, Action cancelAction)
     {
-        thisAction = action;
+        thisOKAction = OkAction;
+        thisCancelAction = cancelAction;
         string message = Global.Instance.messageInfos[messageIdx].message;
         messageTxt.text = message;
     }

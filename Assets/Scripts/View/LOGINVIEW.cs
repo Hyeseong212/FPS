@@ -55,7 +55,7 @@ public class LOGINVIEW : MonoBehaviour
     {
         if (string.IsNullOrEmpty(IDInputField.text))
         {
-            PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true,5 ,null);
+            PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.MESSAGE, true,5 ,null,null);
             return;
         }
 

@@ -12,6 +12,7 @@ public class MainFlow : MonoBehaviour
         LoginController.Instance.Init();
         ChatController.Instance.Init();
         PopupController.Instance.Init();
+        MatchingController.Instance.Init();
         TCPController.Instance.Init();
     }
 }
