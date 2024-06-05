@@ -59,7 +59,6 @@ public class LOGINVIEW : MonoBehaviour
             return;
         }
 
-
         var message = new Packet();
 
         LoginInfo loginInfo = new LoginInfo();
