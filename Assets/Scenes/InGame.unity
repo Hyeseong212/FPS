@@ -9039,7 +9039,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1239782861}
   m_LocalRotation: {x: 0.49163103, y: 0.32400197, z: -0.20364022, w: 0.78220993}
-  m_LocalPosition: {x: -2.32, y: 9.31, z: -4.98}
+  m_LocalPosition: {x: -2.182, y: 9.31, z: -5.118}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 35388031}
@@ -15219,8 +15219,9 @@ GameObject:
   - component: {fileID: 2076632813}
   - component: {fileID: 2076632812}
   - component: {fileID: 2076632811}
+  - component: {fileID: 2076632815}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15307,6 +15308,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &2076632815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076632810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2bbe5b13b894848b32fbb0d9ff10e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2091929868
 GameObject:
   m_ObjectHideFlags: 0
