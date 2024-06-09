@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MatchingController : MonoBehaviour
 {
@@ -34,7 +35,6 @@ public class MatchingController : MonoBehaviour
         {
             TCPController.Instance.EnqueueDispatcher(() =>
             {
-                //길드 가입 요청 보내기
                 Action okaction = () =>
                 {
                     Packet packet = new Packet();
@@ -43,10 +43,12 @@ public class MatchingController : MonoBehaviour
 
                     packet.push((byte)Protocol.Match);
                     packet.push(length);
-                    packet.push((byte)Global.Instance.standbyInfo.gameType);
+                    packet.push((byte)MatchProtocol.GameAccept);
                     packet.push(Global.Instance.standbyInfo.userEntity.UserUID);
 
                     TCPController.Instance.SendToServer(packet);
+
+                    SceneManager.LoadScene("InGame");
                 };
                 Action Cancelaction = () =>
                 {

@@ -16,10 +16,7 @@ public enum Protocol
     ///매칭 서버 관련 요청 패킷
     ///</summary>
     Match = 0x32,
-    ///<summary>
-    ///인게임관련 패킷
-    ///</summary>
-    InGame = 0x33
+    Test = 0x33,
 }
 public enum GuildProtocol
 {
@@ -114,6 +111,7 @@ public enum MatchProtocol
     MatchStop = 0x01,
     GameAccept = 0x02,
     GameMatched = 0x03,
+    GameTestMatched = 0x04,
 }
 
 public enum GameType
@@ -131,5 +129,4 @@ public enum ResponseType
 public enum InGameProtocol
 {
     CharacterTr = 0x01,
-
 }
