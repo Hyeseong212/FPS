@@ -3,6 +3,10 @@ using System.Text;
 
 public class Utils
 {
+    public static int GetLength(float data)
+    {
+        return BitConverter.GetBytes(data).Length;
+    }
     public static int GetLength(int data)
     {
         return BitConverter.GetBytes(data).Length;

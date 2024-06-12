@@ -16,7 +16,14 @@ public enum Protocol
     ///매칭 서버 관련 요청 패킷
     ///</summary>
     Match = 0x32,
+    ///<summary>
+    ///테스트 패킷
+    ///</summary>
     Test = 0x33,
+    ///<summary>
+    ///인게임 관련 패킷
+    ///</summary>
+    InGame = 0x34,
 }
 public enum GuildProtocol
 {
