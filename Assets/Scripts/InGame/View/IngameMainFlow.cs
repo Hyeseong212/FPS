@@ -6,7 +6,6 @@ public class IngameMainFlow : MonoBehaviour
 {
     void Awake()
     {
-        Global.Instance.Init();
-        TCPController.Instance.Init();
+        InGameSessionController.Instance.Init();
     }
 }

@@ -43,4 +43,8 @@ public class Global : MonoBehaviour
             new MessageInfo() {  idx = 6, message = "게임이 매칭 되었습니다!" }
         };
     }
+    public void StaticLog(object obj)
+    {
+        Debug.Log(obj);
+    }
 }

@@ -5,15 +5,13 @@ using UnityEngine.UI;
 
 public class LoadingView : MonoBehaviour
 {
-    [SerializeField] Button SendTestPacket;
-
-    void Start()
+    [SerializeField] Button testbtn;
+    private void Start()
     {
-        SendTestPacket.onClick.AddListener(delegate 
+        testbtn.onClick.AddListener(delegate
         {
+            this.gameObject.SetActive(false);
+            //FindObjectOfType<CharacterTrController>().TestBool = true;
         });
     }
-
-    // Update is called once per frame
-
 }

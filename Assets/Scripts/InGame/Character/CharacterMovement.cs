@@ -122,7 +122,7 @@ public class CharacterMovement : MonoBehaviour
         finalTargetPosition.y = transform.position.y; // Y축 고정
         targetIndex = 0;
         isMoving = true; // 이동 시작
-        Debug.Log("Path found: " + path.Count + " nodes to node behind wall");
+        //Debug.Log("Path found: " + path.Count + " nodes to node behind wall");
     }
 
     private void CalculatePathToTarget(Vector3 targetPosition)
@@ -134,7 +134,7 @@ public class CharacterMovement : MonoBehaviour
         finalTargetPosition.y = transform.position.y; // Y축 고정
         targetIndex = 0;
         isMoving = true; // 이동 시작
-        Debug.Log("Path found: " + path.Count + " nodes to target position");
+        //Debug.Log("Path found: " + path.Count + " nodes to target position");
     }
 
     private void HandleMovement()
@@ -146,11 +146,11 @@ public class CharacterMovement : MonoBehaviour
         {
             targetPosition = path[targetIndex].Position;
             targetPosition.y = transform.position.y; // Y축 고정
-            Debug.Log("Current Position: " + transform.position + " Target Position: " + targetPosition);
+            //Debug.Log("Current Position: " + transform.position + " Target Position: " + targetPosition);
             if (Vector3.Distance(transform.position, targetPosition) < 0.1f) // 허용 오차
             {
                 targetIndex++;
-                Debug.Log("Reached target node, moving to next. Current Index: " + targetIndex);
+                //Debug.Log("Reached target node, moving to next. Current Index: " + targetIndex);
             }
         }
 
@@ -160,7 +160,7 @@ public class CharacterMovement : MonoBehaviour
         {
             isMoving = false; // 이동 완료
             StopMovement();
-            Debug.Log("Reached final target position");
+            //Debug.Log("Reached final target position");
         }
     }
 

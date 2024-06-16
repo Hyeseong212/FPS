@@ -12,10 +12,10 @@ public class AStarPathfinding : MonoBehaviour
         HashSet<Node> closedList = new HashSet<Node>();
 
         Node startNode = FindClosestNode(start);
-        Debug.Log("Start Node: " + startNode.Position);
+        //Debug.Log("Start Node: " + startNode.Position);
 
         Node endNode = FindClosestNode(end);
-        Debug.Log("End Node: " + endNode.Position);
+        //Debug.Log("End Node: " + endNode.Position);
 
         openList.Add(startNode);
 
@@ -36,7 +36,7 @@ public class AStarPathfinding : MonoBehaviour
 
             if (currentNode == endNode)
             {
-                Debug.Log("Path found");
+                //Debug.Log("Path found");
                 return RetracePath(startNode, currentNode);
             }
 
@@ -57,7 +57,7 @@ public class AStarPathfinding : MonoBehaviour
                     if (!openList.Contains(neighbour))
                     {
                         openList.Add(neighbour);
-                        Debug.Log("Added neighbour to open list: " + neighbour.Position);
+                        //Debug.Log("Added neighbour to open list: " + neighbour.Position);
                     }
                 }
             }

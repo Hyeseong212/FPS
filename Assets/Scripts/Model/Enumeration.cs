@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 public enum VIEWTYPE
 {
@@ -43,6 +44,7 @@ public class StandbyInfo
 {
     public UserEntity userEntity;
     public GuildInfo guildInfo;
+    public IPEndPoint sessionIPEndPoint;
 
     public GameType gameType;
 
@@ -54,12 +56,14 @@ public class StandbyInfo
     }
     public void Reset()
     {
+        sessionIPEndPoint = new IPEndPoint(0,0);
         userEntity = new UserEntity();
         guildInfo = new GuildInfo();
         isMatchingNow = false;
         gameType = GameType.Default;
     }
 }
+
 public class MessageInfo
 {
     public int idx;
@@ -108,5 +112,14 @@ public class UserEntity
         Userid = string.Empty;
         UserPW = string.Empty;
         guildUID = 0;
+    }
+}
+[Serializable]
+public class InGameSessionInfo
+{
+    public int PlayerNum;
+    public InGameSessionInfo()
+    {
+        PlayerNum = 0;
     }
 }

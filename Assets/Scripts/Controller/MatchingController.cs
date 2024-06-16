@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -63,5 +65,28 @@ public class MatchingController : MonoBehaviour
                 PopupController.Instance.SetActivePopupWithMessage(POPUPTYPE.OKCANCEL, true, 6, okaction, Cancelaction);
             });
         }
+        else if((MatchProtocol)realData[0] == MatchProtocol.GameRoomIP)
+        {
+            byte[] ipandport = realData.Skip(1).ToArray();
+            SetSessionInfo(ipandport);
+        }
+    }
+    private void SetSessionInfo(byte[] roomIp)
+    {
+        // IP 주소는 첫 4바이트
+        byte[] ipBytes = roomIp.Take(4).ToArray();
+        string ipAddress = new IPAddress(ipBytes).ToString();
+
+        // 포트는 다음 2바이트 (16진수로 변환)
+        byte[] portBytes = roomIp.Skip(4).Take(4).ToArray();
+        int port = BitConverter.ToInt32(portBytes, 0);
+
+        // sessionIPEndPoint 설정
+        Global.Instance.standbyInfo.sessionIPEndPoint = new IPEndPoint(IPAddress.Parse(ipAddress), port);
+        Debug.Log($"Session IP: {ipAddress}, Port: {port}");
+        TCPController.Instance.EnqueueDispatcher(() =>
+        {
+            InGameTCPController.Instance.Init(Global.Instance.standbyInfo.sessionIPEndPoint.Address.ToString(), Global.Instance.standbyInfo.sessionIPEndPoint.Port);
+        });
     }
 }

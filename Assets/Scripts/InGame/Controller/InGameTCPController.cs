@@ -5,36 +5,36 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-public class TCPController : MonoBehaviour
+public class InGameTCPController : MonoBehaviour
 {
     private TcpClient client;
     private NetworkStream stream;
     private Thread receiveThread;
-    private const int bufferSize = 4096;
+    private const int bufferSize = 409600;
 
-    private static TCPController instance;
-    public static TCPController Instance
+    private static InGameTCPController instance;
+    public static InGameTCPController Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = FindObjectOfType<TCPController>();
+                instance = FindObjectOfType<InGameTCPController>();
                 if (instance == null)
                 {
-                    GameObject singletonObject = new GameObject("TCPControllerSingleton");
-                    instance = singletonObject.AddComponent<TCPController>();
-                    DontDestroyOnLoad(singletonObject);
+                    GameObject singletonObject = new GameObject("InGameTCPControllerSingleton");
+                    instance = singletonObject.AddComponent<InGameTCPController>();
+                    Instantiate(singletonObject);
                 }
             }
             return instance;
         }
     }
 
-    public void Init()
+    public void Init(string IP, int port)
     {
-        Debug.Log("TCPController Init Complete");
-        ConnectToServer(Global.Instance.serverIP, 9000); // 서버 IP 주소 및 포트
+        Debug.Log("InGameTCPController Init Complete");
+        ConnectToServer(IP, port); // 서버 IP 주소 및 포트
     }
 
     void OnApplicationQuit()
@@ -47,11 +47,22 @@ public class TCPController : MonoBehaviour
     {
         try
         {
+            Debug.Log($"Trying to connect to server at {serverIp}:{serverPort}");
             client = new TcpClient(serverIp, serverPort);
             stream = client.GetStream();
             receiveThread = new Thread(new ThreadStart(ReceivePackets));
             receiveThread.Start();
+
             Debug.Log("Connected to server.");
+
+            Packet packet = new Packet();//접속했어 패킷
+
+            int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
+
+            packet.push((byte)InGameProtocol.SessionInfo);
+            packet.push(length);
+            packet.push((byte)SessionInfo.SessionSyncOK);
+            packet.push(Global.Instance.standbyInfo.userEntity.UserUID);
         }
         catch (Exception e)
         {
@@ -73,14 +84,14 @@ public class TCPController : MonoBehaviour
 
         //try
         //{
-            while (true)
+        while (true)
+        {
+            int bytesRead = stream.Read(buffer, 0, buffer.Length);
+            if (bytesRead > 0)
             {
-                int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                if (bytesRead > 0)
-                {
-                    HandlePacket(buffer); // 수신된 메시지를 분석하는 함수 호출
-                }
+                HandlePacket(buffer); // 수신된 메시지를 분석하는 함수 호출
             }
+        }
         //}
         //catch (Exception e)
         //{
@@ -120,17 +131,12 @@ public class TCPController : MonoBehaviour
         }
         switch (protocol)
         {
-            case (byte)Protocol.Login:
-                LoginController.Instance.ProcessLoginPacket(realData);
+            case (byte)InGameProtocol.CharacterTr:
+                Debug.Log("캐릭터 동기화 패킷");
+                //캐릭터 동기화 관련 패킷
                 break;
-            case (byte)Protocol.Guild:
-                GuildController.Instance.ProcessGuildPacket(realData);
-                break;
-            case (byte)Protocol.Chat:
-                ChatController.Instance.ProcessChatPacket(realData, length);
-                break;
-            case (byte)Protocol.Match:
-                MatchingController.Instance.ProcessMatchingPacket(realData, length);
+            case (byte)InGameProtocol.SessionInfo:
+                InGameSessionController.Instance.ProcessSessionPacket(realData);
                 break;
 
             default:
@@ -149,7 +155,7 @@ public class TCPController : MonoBehaviour
     }
 
 
-    public void SendToServer(Packet data)
+    public void SendToInGameServer(Packet data)
     {
         try
         {
