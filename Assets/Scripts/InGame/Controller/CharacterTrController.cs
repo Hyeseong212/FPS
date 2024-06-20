@@ -14,7 +14,7 @@ public class CharacterTrController : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if (TestBool)
+        if (InGameSessionController.Instance.inGameSessionInfo.isLoadingOK)
             SendClientCharacterTr(UserCharacter.transform.localPosition, UserCharacter.transform.localRotation);
     }
 

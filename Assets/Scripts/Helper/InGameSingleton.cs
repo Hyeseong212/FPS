@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IngameMainFlow : MonoBehaviour
+public class InGameSingleton : MonoBehaviour
 {
-    void Awake()
+    public void Start()
     {
+        PlayerController.Instance.Init();
         InGameSessionController.Instance.Init();
     }
 }

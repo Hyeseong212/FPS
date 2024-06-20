@@ -117,9 +117,15 @@ public class UserEntity
 [Serializable]
 public class InGameSessionInfo
 {
-    public int PlayerNum;
+    public int playerNum;
+    public bool isPlayerInfoOK;
+    public bool isSyncOK;
+    public bool isLoadingOK;
     public InGameSessionInfo()
     {
-        PlayerNum = 0;
+        playerNum = 0;
+        isPlayerInfoOK = false;
+        isSyncOK = false;
+        isLoadingOK = false;
     }
 }

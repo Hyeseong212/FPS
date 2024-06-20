@@ -23,6 +23,14 @@ public class CharacterMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    public void Init()
+    {
+        speed = 5f;
+        rotationSpeed = 10f;
+        distanceThreshold = 10f;
+        wallOffset = 0.5f;
+    }
+
     void Update()
     {
         HandleMouseInput();

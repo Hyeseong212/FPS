@@ -10,7 +10,10 @@ public class CameraFollow : MonoBehaviour
     void Start()
     {
         // 현재 위치를 기반으로 초기 오프셋 설정
-        offset = transform.position - target.position;
+        offset = new Vector3(-2.9f, 8.4f, -2.9f); //transform.position - target.position;
+    }
+    public void Init()
+    {
     }
 
     void LateUpdate()

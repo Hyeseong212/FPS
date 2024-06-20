@@ -19,7 +19,8 @@ public class InGameSessionController : MonoBehaviour
                 {
                     GameObject singletonObject = new GameObject("InGameSessionControllerSingleton");
                     instance = singletonObject.AddComponent<InGameSessionController>();
-                    DontDestroyOnLoad(singletonObject);
+                    var singletonParent = FindObjectOfType<InGameSingleton>();
+                    Instantiate(singletonObject, singletonParent.transform);
                 }
             }
             return instance;
@@ -31,12 +32,15 @@ public class InGameSessionController : MonoBehaviour
     public void Init()
     {
         Global.Instance.StaticLog($"{this.ToString()} Init Complete");
+        inGameSessionInfo = new InGameSessionInfo();
     }
 
     public void ProcessSessionPacket(byte[] realData)
     {
         if((SessionInfo)realData[0] == SessionInfo.SessionSyncOK)
         {
+            Global.Instance.StaticLog("SessionSyncOK Packet");
+
             Packet packet = new Packet();
 
             int length = 0x01 + Utils.GetLength(Global.Instance.standbyInfo.userEntity.UserUID);
@@ -48,11 +52,15 @@ public class InGameSessionController : MonoBehaviour
             //로딩 1단계완료 처리
 
             InGameTCPController.Instance.SendToInGameServer(packet);
+
+            inGameSessionInfo.isSyncOK = true;
         }
         else if((SessionInfo)realData[0] == SessionInfo.PlayerNum)
         {
+            Global.Instance.StaticLog("PlayerNum Packet");
             //플레이어 몇번째플레이언지
-            inGameSessionInfo.PlayerNum = BitConverter.ToInt32(realData,1);
+            inGameSessionInfo.playerNum = BitConverter.ToInt32(realData,1);
+            inGameSessionInfo.isPlayerInfoOK = true;
             //로딩 2단계완료 처리
         }
     }

@@ -24,7 +24,8 @@ public class InGameTCPController : MonoBehaviour
                 {
                     GameObject singletonObject = new GameObject("InGameTCPControllerSingleton");
                     instance = singletonObject.AddComponent<InGameTCPController>();
-                    Instantiate(singletonObject);
+                    var singletonParent = FindObjectOfType<InGameSingleton>();
+                    Instantiate(singletonObject, singletonParent.transform);
                 }
             }
             return instance;
@@ -63,6 +64,8 @@ public class InGameTCPController : MonoBehaviour
             packet.push(length);
             packet.push((byte)SessionInfo.SessionSyncOK);
             packet.push(Global.Instance.standbyInfo.userEntity.UserUID);
+
+            SendToInGameServer(packet);
         }
         catch (Exception e)
         {
