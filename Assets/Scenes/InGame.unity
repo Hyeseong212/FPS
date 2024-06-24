@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -407,7 +407,7 @@ Transform:
   - {fileID: 1037829093}
   - {fileID: 8350885190496417845}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &35388032
 MonoBehaviour:
@@ -1344,7 +1344,7 @@ Transform:
   - {fileID: 1396225316}
   - {fileID: 1127643968}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &127393797
 MonoBehaviour:
@@ -3814,6 +3814,62 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: -0.0000038146973, y: 0, z: 0}
+--- !u!1 &510474591
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 510474593}
+  - component: {fileID: 510474592}
+  m_Layer: 0
+  m_Name: FogOfWar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &510474592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510474591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e84dcb05944e134587e67e335ba22b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rendererPrefab: {fileID: 1489479144709424, guid: 5f0349d33c8d8f54ca654b9828f90226, type: 3}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _fogWidthX: 80
+  _fogWidthZ: 80
+  _tileSize: 0.2
+  _updateCycle: 0.1
+  _fogAlpha:
+    current: 0
+    visited: 1
+    never: 1
+  _showGizmos: 1
+--- !u!4 &510474593
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510474591}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 5.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &517170641
 GameObject:
   m_ObjectHideFlags: 0
@@ -3989,7 +4045,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &521701400
 GameObject:
@@ -4195,7 +4251,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 558547924}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 7.77, y: 0.93179893, z: 18.48}
+  m_LocalPosition: {x: 7.02, y: 0.93179893, z: 15.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1004822246}
@@ -4716,7 +4772,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 581885977}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.54, y: 0.93179893, z: -8.01}
+  m_LocalPosition: {x: -5.29, y: 0.93179893, z: -11.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1279757801}
@@ -9685,7 +9741,7 @@ Transform:
   m_GameObject: {fileID: 1187152612}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5.14, y: 1, z: 3.38}
   m_Children:
   - {fileID: 130487782}
   - {fileID: 559794465}
@@ -10647,7 +10703,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1248546962}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -4.55, y: 0.93179893, z: 18.72}
+  m_LocalPosition: {x: -5.3, y: 0.93179893, z: 15.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 21255145}
@@ -17407,7 +17463,7 @@ RectTransform:
   - {fileID: 1204176103}
   - {fileID: 1338876753}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -18271,13 +18327,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141686549}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 640, y: 343.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &22293887458926015
 Transform:
   m_ObjectHideFlags: 0
@@ -22725,6 +22781,7 @@ GameObject:
   - component: {fileID: 2370958779837959791}
   - component: {fileID: 2370958779837959792}
   - component: {fileID: 2370958779837959793}
+  - component: {fileID: 2370958779837959794}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -22800,6 +22857,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!114 &2370958779837959794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2370958779837959789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f679d2542968b349aa4d8379aaff732, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sightRange: 6
+  sightHeight: 0
 --- !u!4 &2568820536779094246
 Transform:
   m_ObjectHideFlags: 0
@@ -23505,7 +23576,7 @@ GameObject:
   - component: {fileID: 1429336143985876899}
   - component: {fileID: 3761335749483916137}
   - component: {fileID: 130901891651658228}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: WoodPlank_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23524,7 +23595,7 @@ GameObject:
   - component: {fileID: 1429336143883029666}
   - component: {fileID: 3761335749448218728}
   - component: {fileID: 130901891754439413}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: WoodPlank_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23543,7 +23614,7 @@ GameObject:
   - component: {fileID: 1429336142745463261}
   - component: {fileID: 3761335751261330711}
   - component: {fileID: 130901892087486346}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: WoodPlank_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23562,7 +23633,7 @@ GameObject:
   - component: {fileID: 1429336142972759223}
   - component: {fileID: 3761335750349838461}
   - component: {fileID: 130901892924560096}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: WoodPlank_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25664,7 +25735,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3785413745623972578}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 5, y: 0, z: 15}
+  m_LocalPosition: {x: 5, y: 0, z: 14.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 863544379792338845}
@@ -25683,7 +25754,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3785413745582596592}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: -5, y: 0, z: 15}
+  m_LocalPosition: {x: -5, y: 0, z: 14.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 863544379834791055}
@@ -26857,8 +26928,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5253728364429686080}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.18673813, y: 5.799177, z: 2.4772887}
-  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_LocalPosition: {x: 0.1852, y: 5.7992, z: 2.45}
+  m_LocalScale: {x: 2.0227015, y: 1, z: 2.9583848}
   m_Children:
   - {fileID: 1187152613}
   m_Father: {fileID: 8350885190496417845}
@@ -27491,7 +27562,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2370958779837959789}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.43, y: 0.93179893, z: -7.67}
+  m_LocalPosition: {x: 6.68, y: 0.93179893, z: -10.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9181077908341974331}
@@ -28103,7 +28174,7 @@ GameObject:
   - component: {fileID: 7419540221119046486}
   - component: {fileID: 4689223357874755484}
   - component: {fileID: 3963902325711468937}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: WoodPlank_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28141,7 +28212,7 @@ GameObject:
   - component: {fileID: 7419540220004382566}
   - component: {fileID: 4689223358838293420}
   - component: {fileID: 3963902324748053945}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: WoodPlank_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29869,7 +29940,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2709471746997305109}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5154357, y: -4.867379, z: 2.9816415}
+  m_LocalPosition: {x: 0, y: -4.867379, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5253728364429686084}
