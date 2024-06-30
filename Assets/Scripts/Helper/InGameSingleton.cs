@@ -6,7 +6,6 @@ public class InGameSingleton : MonoBehaviour
 {
     public void Start()
     {
-        PlayerController.Instance.Init();
         InGameSessionController.Instance.Init();
     }
 }

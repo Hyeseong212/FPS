@@ -1,3 +1,4 @@
+using Rito.FogOfWar;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,13 +27,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject[] players;
     public void Init()
     {
-        Debug.Log("PlayerController Init Complete");
         var characterCam = FindObjectOfType<CameraFollow>();
+        Global.Instance.StaticLog($"this PlayerNumber is {InGameSessionController.Instance.inGameSessionInfo.playerNum}");
         switch (InGameSessionController.Instance.inGameSessionInfo.playerNum)
         {
             case 1:
                 characterCam.target = players[0].transform;
-
                 break;
             case 2:
                 characterCam.target = players[1].transform;
@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
             {
                 players[i].GetComponent<CharacterMovement>().enabled = false;
                 players[i].GetComponent<AStarPathfinding>().enabled = false;
+                players[i].GetComponent<FowUnit>().enabled = false;
             }
 
         }

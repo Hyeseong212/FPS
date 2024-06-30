@@ -158,7 +158,6 @@ namespace Rito.FogOfWar
             InitMap();
             InitFogTexture();
 
-            Debug.Log(Application.targetFrameRate);
         }
         private void OnEnable()
         {

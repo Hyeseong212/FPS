@@ -4227,6 +4227,7 @@ GameObject:
   - component: {fileID: 558547928}
   - component: {fileID: 558547927}
   - component: {fileID: 558547926}
+  - component: {fileID: 558547930}
   m_Layer: 8
   m_Name: Player4
   m_TagString: Untagged
@@ -4319,6 +4320,20 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &558547930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558547924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f679d2542968b349aa4d8379aaff732, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sightRange: 6
+  sightHeight: 0
 --- !u!1 &559794464
 GameObject:
   m_ObjectHideFlags: 0
@@ -4748,6 +4763,7 @@ GameObject:
   - component: {fileID: 581885981}
   - component: {fileID: 581885980}
   - component: {fileID: 581885979}
+  - component: {fileID: 581885983}
   m_Layer: 8
   m_Name: Player3
   m_TagString: Untagged
@@ -4840,6 +4856,20 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &581885983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581885977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f679d2542968b349aa4d8379aaff732, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sightRange: 6
+  sightHeight: 0
 --- !u!1 &584528485
 GameObject:
   m_ObjectHideFlags: 0
@@ -10680,6 +10710,7 @@ GameObject:
   - component: {fileID: 1248546966}
   - component: {fileID: 1248546965}
   - component: {fileID: 1248546964}
+  - component: {fileID: 1248546968}
   m_Layer: 8
   m_Name: Player2
   m_TagString: Player
@@ -10772,6 +10803,20 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &1248546968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248546962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f679d2542968b349aa4d8379aaff732, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sightRange: 6
+  sightHeight: 0
 --- !u!1 &1248979396
 GameObject:
   m_ObjectHideFlags: 0

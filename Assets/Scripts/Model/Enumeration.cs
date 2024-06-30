@@ -125,7 +125,7 @@ public class InGameSessionInfo
     public List<OpponentInfo> opponentInfos;
     public InGameSessionInfo()
     {
-        playerNum = 0;
+        playerNum = 1;
         isPlayerInfoOK = false;
         isSyncOK = false;
         isLoadingOK = false;

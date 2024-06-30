@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class InGameSessionController : MonoBehaviour
 {
-    //여기서 세션정보들 다처리해버리자 머리아파
     private static InGameSessionController instance;
     public static InGameSessionController Instance
     {
@@ -57,10 +56,9 @@ public class InGameSessionController : MonoBehaviour
         }
         else if((SessionInfo)realData[0] == SessionInfo.PlayerNum)
         {
-            Global.Instance.StaticLog("PlayerNum Packet");
             //플레이어 몇번째플레이언지
             inGameSessionInfo.playerNum = BitConverter.ToInt32(realData,1);
-
+            Global.Instance.StaticLog($"PlayerNum : {inGameSessionInfo.playerNum }");
             InGameTCPController.Instance.EnqueueDispatcher(() => {
                 CharacterTrController.Instance.Init();
                 inGameSessionInfo.isPlayerInfoOK = true;
