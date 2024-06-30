@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using UnityEngine;
 
 public enum VIEWTYPE
 {
@@ -121,11 +122,23 @@ public class InGameSessionInfo
     public bool isPlayerInfoOK;
     public bool isSyncOK;
     public bool isLoadingOK;
+    public List<OpponentInfo> opponentInfos;
     public InGameSessionInfo()
     {
         playerNum = 0;
         isPlayerInfoOK = false;
         isSyncOK = false;
         isLoadingOK = false;
+        opponentInfos = new List<OpponentInfo>();
     }
+}
+[Serializable]
+public class OpponentInfo
+{
+    public long OpponentUid { get; set; }
+    public Vector3 pos { get; set; }
+    public Quaternion rotation { get; set; }
+    public float HP { get; set; }
+    public float MP { get; set; }
+    public bool isHit { get; set; }
 }

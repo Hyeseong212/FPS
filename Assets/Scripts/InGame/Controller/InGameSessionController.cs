@@ -60,8 +60,14 @@ public class InGameSessionController : MonoBehaviour
             Global.Instance.StaticLog("PlayerNum Packet");
             //플레이어 몇번째플레이언지
             inGameSessionInfo.playerNum = BitConverter.ToInt32(realData,1);
-            inGameSessionInfo.isPlayerInfoOK = true;
+
+            InGameTCPController.Instance.EnqueueDispatcher(() => {
+                CharacterTrController.Instance.Init();
+                inGameSessionInfo.isPlayerInfoOK = true;
+            });
             //로딩 2단계완료 처리
         }
+
+        //다른 플레이어 데이터
     }
 }

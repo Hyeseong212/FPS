@@ -251,6 +251,8 @@ namespace Rito.FogOfWar
         /***********************************************************************
         *                               Coroutine
         ***********************************************************************/
+        public List<GameObject> players; // 모든 플레이어 오브젝트를 참조
+
         #region .
         public IEnumerator UpdateFogRoutine()
         {
@@ -273,10 +275,35 @@ namespace Rito.FogOfWar
 #endif
                             );
                     }
-                }
+                } //맵업데이트
 
+                foreach (var player in players)
+                {
+                    bool isPlayerVisible = IsPlayerVisibleFromAnyUnit(player);
+
+                    var renderers = player.GetComponentsInChildren<Renderer>();
+                    foreach (var renderer in renderers)
+                    {
+                        renderer.enabled = isPlayerVisible;
+                    }
+                }
                 yield return new WaitForSeconds(_updateCycle);
             }
+        }
+        private bool IsPlayerVisibleFromAnyUnit(GameObject player)
+        {
+            foreach (var unit in UnitList)
+            {
+                if (Vector3.Distance(unit.transform.position, player.transform.position) <= unit.sightRange)
+                {
+                    // 장애물 여부 확인
+                    if (!Physics.Linecast(unit.transform.position, player.transform.position, _groundLayer))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 #if DEBUG_RANGE
         List<FowTile> visibleTiles = new List<FowTile>();

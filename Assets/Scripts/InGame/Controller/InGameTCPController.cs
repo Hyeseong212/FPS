@@ -10,7 +10,7 @@ public class InGameTCPController : MonoBehaviour
     private TcpClient client;
     private NetworkStream stream;
     private Thread receiveThread;
-    private const int bufferSize = 409600;
+    private const int bufferSize = 4096;
 
     private static InGameTCPController instance;
     public static InGameTCPController Instance
@@ -83,24 +83,26 @@ public class InGameTCPController : MonoBehaviour
 
     private void ReceivePackets()
     {
-        byte[] buffer = new byte[Packet.buffersize];
+        byte[] buffer = new byte[bufferSize];
 
-        //try
-        //{
-        while (true)
+        try
         {
-            int bytesRead = stream.Read(buffer, 0, buffer.Length);
-            if (bytesRead > 0)
+            while (true)
             {
-                HandlePacket(buffer); // 수신된 메시지를 분석하는 함수 호출
+                int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                if (bytesRead > 0)
+                {
+                    HandlePacket(buffer); // 수신된 메시지를 분석하는 함수 호출
+                }
             }
         }
-        //}
-        //catch (Exception e)
-        //{
-        //    Debug.LogError($"Receive error: {e.Message}");
-        //}
+        catch (Exception e)
+        {
+            Debug.LogError($"Receive error: {e.Message}");
+        }
     }
+
+    int testInt = 0;
     private void HandlePacket(byte[] buffer)
     {
         byte protocol = buffer[0];
@@ -135,7 +137,13 @@ public class InGameTCPController : MonoBehaviour
         switch (protocol)
         {
             case (byte)InGameProtocol.CharacterTr:
-                Debug.Log("캐릭터 동기화 패킷");
+                if (!InGameSessionController.Instance.inGameSessionInfo.isPlayerInfoOK) return;
+                testInt++;
+                if (testInt >= 95)
+                {
+                    
+                }
+                CharacterTrController.Instance.ProcessUpdatePlayerPacket(realData);
                 //캐릭터 동기화 관련 패킷
                 break;
             case (byte)InGameProtocol.SessionInfo:
